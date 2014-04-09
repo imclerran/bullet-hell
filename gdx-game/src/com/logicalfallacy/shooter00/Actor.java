@@ -18,7 +18,7 @@ public class Actor
 		_sprite.setScale(Gdx.graphics.getWidth()/64);
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
 		
-		_speed = 1000.0f;
+		_speed = 2000.0f;
 		_dxdy = new Vector2();
 		_dest = new Vector2();
 	}
@@ -35,31 +35,37 @@ public class Actor
 	{
 		if(Gdx.input.isTouched())
 		{
+			// set destinations
 			_dest.x = Gdx.input.getX();
 			_dest.y = Gdx.graphics.getHeight() - Gdx.input.getY()+ _sprite.getBoundingRectangle().getHeight()/3*2;
 			
+			// calculate x,y speeds
 			calcDxDy();
+			
+			//set sprite location
 			_sprite.setX(_sprite.getX() + _dxdy.x * Gdx.graphics.getDeltaTime());
 			_sprite.setY(_sprite.getY() + _dxdy.y * Gdx.graphics.getDeltaTime());
 		}
-		else
-		{
-			_dest.x = _sprite.getX();
-			_dest.y = _sprite.getY();
-		}
 	}
 	
+	// TODO: fix inconsistent speeds
 	public void calcDxDy()
 	{
+		// calculate x, y distance from current position to destination
 		float distx = _dest.x - _sprite.getX();
 		float disty = _dest.y - _sprite.getY();
+		
+		// pythagorean:
 		float a2b2 = (float)Math.pow(distx, 2) + (float)Math.pow(disty, 2);
 		float dist = (float)Math.sqrt(a2b2);
 		
+		// similar triangles
 		_dxdy.x = (_speed/dist)*distx;
+		_dxdy.y = (_speed/dist)*disty;
+		
+		// correct for over travel
 		if(_dxdy.x > distx)
 			_dxdy.x = distx;
-		_dxdy.y = (_speed/dist)*disty;
 		if(_dxdy.y > disty)
 			_dxdy.y = disty;
 	}
