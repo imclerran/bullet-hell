@@ -18,8 +18,9 @@ public class Actor
 		_sprite.setScale(Gdx.graphics.getWidth()/64);
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
 		
-		_speed = 50.0f;
-		
+		_speed = 1000.0f;
+		_dxdy = new Vector2();
+		_dest = new Vector2();
 	}
 	
 	// data members:
@@ -35,27 +36,32 @@ public class Actor
 		if(Gdx.input.isTouched())
 		{
 			_dest.x = Gdx.input.getX();
-			_dest.y = Gdx.input.getY();
+			_dest.y = Gdx.graphics.getHeight() - Gdx.input.getY()+ _sprite.getBoundingRectangle().getHeight()/3*2;
+			
+			calcDxDy();
+			_sprite.setX(_sprite.getX() + _dxdy.x * Gdx.graphics.getDeltaTime());
+			_sprite.setY(_sprite.getY() + _dxdy.y * Gdx.graphics.getDeltaTime());
 		}
 		else
 		{
 			_dest.x = _sprite.getX();
 			_dest.y = _sprite.getY();
 		}
-		calcDyDx();
-		_sprite.setX(_dxdy.x * Gdx.graphics.getDeltaTime());
-		_sprite.setY(_dxdy.y * Gdx.graphics.getDeltaTime());
 	}
 	
-	public void calcDyDx()
+	public void calcDxDy()
 	{
 		float distx = _dest.x - _sprite.getX();
 		float disty = _dest.y - _sprite.getY();
 		float a2b2 = (float)Math.pow(distx, 2) + (float)Math.pow(disty, 2);
 		float dist = (float)Math.sqrt(a2b2);
 		
-		_dxdy.x = _speed/dist*distx;
-		_dxdy.y = _speed/dist*disty;
+		_dxdy.x = (_speed/dist)*distx;
+		if(_dxdy.x > distx)
+			_dxdy.x = distx;
+		_dxdy.y = (_speed/dist)*disty;
+		if(_dxdy.y > disty)
+			_dxdy.y = disty;
 	}
 	
 	public void draw(Batch batch)
