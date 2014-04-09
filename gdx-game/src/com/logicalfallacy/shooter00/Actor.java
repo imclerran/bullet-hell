@@ -18,7 +18,7 @@ public class Actor
 		_sprite.setScale(Gdx.graphics.getWidth()/64);
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
 		
-		_speed = 2000.0f;
+		_speed = 10000.0f;
 		_dxdy = new Vector2();
 		_dest = new Vector2();
 	}
@@ -48,7 +48,9 @@ public class Actor
 		}
 	}
 	
-	// TODO: fix inconsistent speeds
+	// TODO:
+	// increases in _speed do not appear to have equally increase effective speed
+	// speed appears greater greater while farther from destination
 	public void calcDxDy()
 	{
 		// calculate x, y distance from current position to destination
@@ -64,9 +66,9 @@ public class Actor
 		_dxdy.y = (_speed/dist)*disty;
 		
 		// correct for over travel
-		if(_dxdy.x > distx)
+		if(Math.abs(_dxdy.x) > Math.abs(distx))
 			_dxdy.x = distx;
-		if(_dxdy.y > disty)
+		if(Math.abs(_dxdy.y) > Math.abs(disty))
 			_dxdy.y = disty;
 	}
 	
