@@ -32,7 +32,6 @@ public class Map
 	// update position of map on screen
 	public void update()
 	{
-		
 		if(_offset > _tileHeight)
 			_offset = 0;
 		else

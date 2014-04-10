@@ -3,13 +3,15 @@ package com.logicalfallacy.shooter00;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
+import java.util.*;
 
 public class MyGdxGame implements ApplicationListener
 {
 	Texture texture;
 	Map BG;
-	Actor hero;
+	Hero hero;
 	SpriteBatch batch;
+	ArrayList<Bullet> bulletList;
 
 	@Override
 	public void create()
@@ -17,8 +19,10 @@ public class MyGdxGame implements ApplicationListener
 		//texture = new Texture(Gdx.files.internal("android.jpg"));
 		texture = new Texture(Gdx.files.internal("data/runway_tile_p2.png"));
 		BG = new Map();
-		hero = new Actor();
+		bulletList = new ArrayList();
+		hero = new Hero(bulletList);
 		batch = new SpriteBatch();
+		
 	}
 
 	@Override
@@ -32,8 +36,23 @@ public class MyGdxGame implements ApplicationListener
 		//batch.draw(texture, Gdx.graphics.getWidth() / 4, 0, 
 		//		   Gdx.graphics.getWidth() / 2, Gdx.graphics.getWidth() / 2);
 		BG.draw(batch);
+		for(Bullet b : bulletList)
+		{
+			b.update();
+			b.draw(batch);
+		}
 		hero.draw(batch);
 		batch.end();
+		deleteBullets();
+	}
+	
+	public void deleteBullets()
+	{
+		for(int i = 0; i < bulletList.size(); i++)
+		{
+			if(bulletList.get(i)._deleteMe)
+				bulletList.remove(i);
+		}
 	}
 
 	@Override
