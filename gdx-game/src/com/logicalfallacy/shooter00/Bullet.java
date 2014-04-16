@@ -9,8 +9,8 @@ import com.badlogic.gdx.math.*;
 public class Bullet extends Actor {
 	public Bullet() {
 		_damage = 10;
-		_angle = 90.0f;
-		_speed = 1500;
+		_angle = (float)Math.PI/2;
+		_speed = 500;
 		calcDxDy();
 		_deleteMe = false;
 		Texture temp = new Texture(Gdx.files.internal("data/bullet.png"));
@@ -31,8 +31,25 @@ public class Bullet extends Actor {
 		_sprite.setY(y);
 		_sprite.setScale(Gdx.graphics.getWidth()/72);
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
-		
 	}
+	
+	public Bullet(float x, float y, float angle)
+	{
+		_damage = 10;
+		_angle = angle;
+		_speed = 1200;
+		_dxdy = new Vector2();
+		calcDxDy();
+		_deleteMe = false;
+		Texture temp = new Texture(Gdx.files.internal("data/bullet.png"));
+		_sprite = new Sprite(temp);
+		_sprite.setX(x);
+		_sprite.setY(y);
+		_sprite.setScale(Gdx.graphics.getWidth()/72);
+		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
+
+	}
+	
 	// data members:
 	int _damage;
 	float _speed;
@@ -59,4 +76,8 @@ public class Bullet extends Actor {
 		_dxdy.x = (float)Math.cos(_angle) * _speed;
 		_dxdy.y = (float)Math.sin(_angle) * _speed;
 	}
+	
+	public int getDamage() { return _damage; }
+	
+	
 }

@@ -4,56 +4,102 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import java.util.*;
+import android.text.style.*;
+import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.Game;
 
-public class MyGdxGame implements ApplicationListener
+import com.logicalfallacy.shooter00.screens.*;
+
+public class MyGdxGame extends Game //implements ApplicationListener
 {
+	MainMenuScreen mainMenuScreen;
+	GameScreen gameScreen;
+	
 	Texture texture;
-	Map BG;
+	Background BG;
 	Hero hero;
+	enemyManager enemies;
 	SpriteBatch batch;
-	ArrayList<Bullet> bulletList;
+	ArrayList<Bullet> friendlyBullets;
+	
 
 	@Override
 	public void create()
 	{
-		//texture = new Texture(Gdx.files.internal("android.jpg"));
-		texture = new Texture(Gdx.files.internal("data/runway_tile_p2.png"));
-		BG = new Map();
-		bulletList = new ArrayList();
-		hero = new Hero(bulletList);
-		batch = new SpriteBatch();
+		mainMenuScreen = new MainMenuScreen(this);
+		gameScreen = new GameScreen(this);
+		gameScreen.create();
+		setScreen(gameScreen);
+		/*BG = new Background();
+		friendlyBullets = new ArrayList();
+		hero = new Hero(friendlyBullets);
+		enemies = new enemyManager();
+		enemies.spawnWaves(true);
 		
+		batch = new SpriteBatch();*/
 	}
 
 	@Override
 	public void render()
-	{        
-	    Gdx.gl.glClearColor(1, 1, 1, 1);
+	{
+		super.render();
+	    /*Gdx.gl.glClearColor(1, 1, 1, 1);
 	    Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		BG.update();
 		hero.update();
+		enemies.update();
+		detectHits();
+		deleteBullets(friendlyBullets);
+		
 		batch.begin();
-		//batch.draw(texture, Gdx.graphics.getWidth() / 4, 0, 
-		//		   Gdx.graphics.getWidth() / 2, Gdx.graphics.getWidth() / 2);
 		BG.draw(batch);
-		for(Bullet b : bulletList)
+		enemies.draw(batch);
+		enemies.draw(batch);
+		drawBullets(batch, friendlyBullets);
+		hero.draw(batch);
+		batch.end();*/
+	}
+	
+	/*public void drawBullets(Batch batch, ArrayList<Bullet> bullets)
+	{
+		for(Bullet b : bullets)
 		{
 			b.update();
 			b.draw(batch);
 		}
-		hero.draw(batch);
-		batch.end();
-		deleteBullets();
 	}
 	
-	public void deleteBullets()
+	public void deleteBullets(ArrayList<Bullet> bullets)
 	{
-		for(int i = 0; i < bulletList.size(); i++)
+		for(int i = 0; i < bullets.size(); i++)
 		{
-			if(bulletList.get(i)._deleteMe)
-				bulletList.remove(i);
+			if(bullets.get(i)._deleteMe)
+				bullets.remove(i);
 		}
 	}
+	
+	public void detectHits()
+	{
+		Rectangle intersection = new Rectangle();
+		
+		for(int i = 0; i < enemies.getEnemyCount(); i++) {
+			for(int j = 0; j < friendlyBullets.size(); j++)
+				if(Intersector.intersectRectangles(
+					friendlyBullets.get(j).getSprite().getBoundingRectangle(),
+					enemies.getShipRect(i),
+					intersection)) 
+				{
+					enemies.getEnemy(i).hit(friendlyBullets.get(j).getDamage());
+					friendlyBullets.remove(j);
+				}
+			if(enemies.getEnemy(i).isDead())
+				enemies.kill(i);
+		}
+		
+		enemies.bulletHits(hero);
+		//if(hero.isDead())
+			// game over
+	}*/
 
 	@Override
 	public void dispose()

@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.*;
 
 public class Ship extends Actor
 {
-	// data members:
+	// TODO: replace Tmer with timeToNextFire
 	float _speed;
 	Vector2 _dxdy;
 	Vector2 _dest;
@@ -18,6 +18,7 @@ public class Ship extends Actor
 	float _fireRate;
 	Timer _fireTimer;
 	ArrayList<Bullet> _BulletList;
+	boolean _weaponReady;
 
 	// methods:
 
@@ -58,6 +59,9 @@ public class Ship extends Actor
 				}
 			}, _fireRate);
 	}
+	
+	public void hit(int damage) { _hp = _hp - damage; }
+	public boolean isDead() { return (_hp <= 0) ? true : false; }
 	
 	public boolean updateDestination() {
 		return false;

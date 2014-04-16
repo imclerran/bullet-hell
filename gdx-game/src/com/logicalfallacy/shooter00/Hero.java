@@ -32,7 +32,6 @@ public class Hero extends Ship
 	
 	// data members:
 	TextureRegion[][] _views;
-	boolean _weaponReady;
 
 	// methods:
 	
@@ -42,13 +41,13 @@ public class Hero extends Ship
 		// TODO: Fix texture changing (bank left/right)
 		super.update();
 		
-		//if travelling right
+		// bank right
 		if(_dxdy.x > 0 + (_speed/2))
 			_sprite.setTexture(_views[0][2].getTexture());
-		//if travelling left
+		// bank left
 		if(_dxdy.x < 0 - (_speed/2))
 			_sprite.setTexture(_views[0][1].getTexture());
-		//if travelling forward
+		// forward
 		else
 			_sprite.setTexture(_views[0][0].getTexture());
 		
@@ -74,7 +73,11 @@ public class Hero extends Ship
 		// fire!
 		if(Gdx.input.isTouched() && _weaponReady) {
 			_BulletList.add(new Bullet(_sprite.getX(), _sprite.getY()));
+			_BulletList.add(new Bullet(_sprite.getX(), _sprite.getY(), (float)Math.PI/9*4));
+			_BulletList.add(new Bullet(_sprite.getX(), _sprite.getY(), (float)Math.PI/9*5));
+			
 			_weaponReady = false;
+			
 			_fireTimer.schedule(new Timer.Task(){
 					@Override
 					public void run() {
