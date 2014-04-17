@@ -4,9 +4,9 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 
-public class Map
+public class Background
 {
-	public Map()
+	public Background()
 	{
 		_texture = new Texture(Gdx.files.internal("data/runway_tile_p2.png"));
 		_batch = new SpriteBatch();
