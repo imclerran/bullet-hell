@@ -14,12 +14,10 @@ public class Actor
 
 	// methods:
 
-	public void update()
-	{
+	public void update() {
 	}
 
-	public void draw(Batch batch)
-	{
+	public void draw(Batch batch) {
 		_sprite.draw(batch);
 	}
 	

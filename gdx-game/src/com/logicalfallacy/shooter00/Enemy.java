@@ -24,9 +24,17 @@ public class Enemy extends Ship
 		_dest = new Vector2(_sprite.getX(), _sprite.getY());
 
 		_hp = 30;
+		_pointValue = _hp;
 		_fireRate = 1.0f;
 		_BulletList = bulletList;
-		_weaponReady = true;
+		_weaponReady = false;
+		
+		_fireTimer.schedule(new Timer.Task(){
+				@Override
+				public void run() {
+					_weaponReady = true;
+				} // end run()
+			}, (float)Math.random()*_fireRate);
 	}
 
 	@Override
@@ -57,5 +65,15 @@ public class Enemy extends Ship
 					} // end run()
 				}, _fireRate);
 		}
+	}
+	
+	@Override
+	public int getPoints() {
+		if(isDead()) {
+			int temp = _pointValue;
+			_pointValue = 0;
+			return temp;
+		}
+		return 0;
 	}
 }

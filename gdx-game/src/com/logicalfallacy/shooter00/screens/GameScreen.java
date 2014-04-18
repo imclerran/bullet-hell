@@ -13,12 +13,15 @@ public class GameScreen implements Screen
 {
 	MyGdxGame game;
 	
-	Texture texture;
+	//Texture texture;
 	Background BG;
 	Hero hero;
 	enemyManager enemies;
 	SpriteBatch batch;
 	ArrayList<Bullet> friendlyBullets;
+	
+	BitmapFont font;
+	TextureAtlas textureAtlas;
 	
 	public GameScreen(MyGdxGame mygame) {
 		game = mygame;
@@ -32,7 +35,12 @@ public class GameScreen implements Screen
 		enemies = new enemyManager();
 		enemies.spawnWaves(true);
 
-		batch = new SpriteBatch();	
+		batch = new SpriteBatch();
+		
+		// test code:
+		//textureAtlas = new TextureAtlas("data/main");
+		font = new BitmapFont(Gdx.files.internal("data/sf_square.fnt"), false);
+		//textureAtlas.findRegion("calibri"), false);
 	}
 
 	@Override
@@ -52,6 +60,8 @@ public class GameScreen implements Screen
 		enemies.draw(batch);
 		drawBullets(batch, friendlyBullets);
 		hero.draw(batch);
+		//test:
+		font.draw(batch, Integer.toString(123), 50, 50);
 		batch.end();
 	}
 	

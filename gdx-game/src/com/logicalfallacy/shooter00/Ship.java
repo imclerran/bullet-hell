@@ -19,6 +19,7 @@ public class Ship extends Actor
 	Timer _fireTimer;
 	ArrayList<Bullet> _BulletList;
 	boolean _weaponReady;
+	int _pointValue;
 
 	// methods:
 
@@ -80,4 +81,6 @@ public class Ship extends Actor
 		_dxdy.x = (_speed/dist)*distx;
 		_dxdy.y = (_speed/dist)*disty;
 	}
+	
+	public int getPoints() { return 0; }
 }

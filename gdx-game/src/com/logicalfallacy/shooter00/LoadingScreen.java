@@ -1,4 +1,4 @@
-package com.logicalfallacy.shooter00.screens;
+package com.logicalfallacy.shooter00;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
@@ -7,48 +7,41 @@ import java.util.*;
 import android.text.style.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-
 import com.logicalfallacy.shooter00.*;
 
-public class MainMenuScreen implements Screen
+public class LoadingScreen implements Screen
 {
 	MyGdxGame game;
-	Stage stage;
-	Table table;
-	Button startGameButton;
+	Spinner spinner;
+	SpriteBatch batch;
+	boolean finished;
 	
-	public MainMenuScreen(MyGdxGame mygame) {
+	public LoadingScreen(MyGdxGame mygame) {
 		game = mygame;
-		create();
+		spinner = new Spinner();
+		batch = new SpriteBatch();
+		finished = false;
+		
 	}
 	
 	@Override
 	public void create() {
-		stage = new Stage();
-		Gdx.input.setInputProcessor(stage);
+	
 		
-		table = new Table();
-		table.setFillParent(true);
-		stage.addActor(table);
-		
-		//add widgets to table here.
-		startGameButton = new Button();
-		table.addActor(startGameButton);
 	}
 
 	@Override
 	public void render(float p1)
 	{
-		// TODO: Implement this method
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		stage.act(Gdx.graphics.getDeltaTime());
-		stage.draw();
-		
-		Table.drawDebug(stage);
+		finished = spinner.isFinished();
+		batch.begin();
+		spinner.draw(batch);
+		batch.end();
 	}
+	
+	public boolean isFinished() { return finished; }
 
+	
 	@Override
 	public void hide()
 	{
@@ -83,6 +76,5 @@ public class MainMenuScreen implements Screen
 	public void dispose()
 	{
 		// TODO: Implement this method
-		stage.dispose();
 	}
 }
