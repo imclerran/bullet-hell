@@ -9,9 +9,8 @@ public class Background
 	public Background()
 	{
 		_texture = new Texture(Gdx.files.internal("data/runway_tile_p2.png"));
-		_batch = new SpriteBatch();
 		_y = new float[9];
-		_dy = 200.0f;
+		_dy = 0.2f*Gdx.graphics.getHeight();
 		_offset = 0.0f;
 		_tileHeight = Gdx.graphics.getHeight() / 8;
 		_tileWidth = Gdx.graphics.getWidth();
@@ -19,7 +18,6 @@ public class Background
 	
 	// data members:
 	Texture _texture;
-	SpriteBatch _batch;
 	
 	float _dy;
 	float[] _y;

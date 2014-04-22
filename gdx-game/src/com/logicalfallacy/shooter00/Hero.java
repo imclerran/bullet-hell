@@ -10,22 +10,26 @@ import com.badlogic.gdx.utils.*;
 
 public class Hero extends Ship
 {
-	public Hero(ArrayList<Bullet> bulletList)
+	//ArrayList <HeroBullet> _bulletList;
+	public Hero(Array<Bullet> bulletList)
 	{
-		Texture temp = new Texture(Gdx.files.internal("data/hero3_views.png"));
-		_views = TextureRegion.split(temp, 16, 16);
+		_texture = new Texture(Gdx.files.internal("data/hero3_views.png"));
+		_views = TextureRegion.split(_texture, 16, 16);
 		_sprite = new Sprite(_views[0][0]);
+		//_texture = new Texture(Gdx.files.internal("data/badass.png"));
+		//_sprite = new Sprite(_texture);
 		_sprite.setX(Gdx.graphics.getWidth()/2);
 		_sprite.setY(Gdx.graphics.getWidth()/8);
-		_sprite.setScale(Gdx.graphics.getWidth()/64);
+		_sprite.setScale(0.2f*Gdx.graphics.getWidth()/_sprite.getWidth());
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
 		
-		_speed = 1000.0f;
+		_speed = 1.0f*Gdx.graphics.getWidth();
 		_dxdy = new Vector2();
 		_dest = new Vector2();
 		
-		_hp = 100;
-		_fireRate = 0.25f;
+		_maxHP = 100;
+		_hp = _maxHP;
+		_fireRate = 0.22f;
 		_BulletList = bulletList;
 		_weaponReady = true;
 	}
@@ -38,18 +42,22 @@ public class Hero extends Ship
 	@Override
 	public void update()
 	{
-		// TODO: Fix texture changing (bank left/right)
-		super.update();
+		if(!this.isDead())
+		{
+			// TODO: Fix texture changing (bank left/right)
+			super.update();
 		
-		// bank right
-		if(_dxdy.x > 0 + (_speed/2))
-			_sprite.setTexture(_views[0][2].getTexture());
-		// bank left
-		if(_dxdy.x < 0 - (_speed/2))
-			_sprite.setTexture(_views[0][1].getTexture());
-		// forward
-		else
-			_sprite.setTexture(_views[0][0].getTexture());
+			
+			// bank right
+			if(_dxdy.x > 0.0f + (_speed/2.0f))
+				_sprite.setTexture(_views[0][2].getTexture());
+			// bank left
+			else if(_dxdy.x < 0.0f - (_speed/2.0f))
+				_sprite.setTexture(_views[0][1].getTexture());
+				
+			else // forward
+				_sprite.setTexture(_views[0][0].getTexture());
+		}
 		
 	}
 
@@ -72,9 +80,9 @@ public class Hero extends Ship
 	{
 		// fire!
 		if(Gdx.input.isTouched() && _weaponReady) {
-			_BulletList.add(new Bullet(_sprite.getX(), _sprite.getY()));
-			_BulletList.add(new Bullet(_sprite.getX(), _sprite.getY(), (float)Math.PI/9*4));
-			_BulletList.add(new Bullet(_sprite.getX(), _sprite.getY(), (float)Math.PI/9*5));
+			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), .5f*(float)Math.PI));
+			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), (float)Math.PI/9*4));
+			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), (float)Math.PI/9*5));
 			
 			_weaponReady = false;
 			
@@ -86,6 +94,11 @@ public class Hero extends Ship
 				}, _fireRate);
 		}
 	}
-	
-	
+
+	@Override
+	public void draw(Batch batch)
+	{
+		if(!this.isDead())
+			super.draw(batch);
+	}
 }

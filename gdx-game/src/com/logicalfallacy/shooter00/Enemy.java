@@ -10,22 +10,23 @@ import com.badlogic.gdx.utils.*;
 
 public class Enemy extends Ship
 {
-	public Enemy(ArrayList<Bullet> bulletList)
+	public Enemy(Array<Bullet> bulletList)
 	{
-		Texture temp = new Texture(Gdx.files.internal("data/enemy1.png"));
-		_sprite = new Sprite(temp);
+		_texture = new Texture(Gdx.files.internal("data/badass.png"));
+		_sprite = new Sprite(_texture);
+		_sprite.flip(false, true);
 		_sprite.setX((float)Math.random() * Gdx.graphics.getWidth());
 		_sprite.setY(Gdx.graphics.getHeight()/8*9);
-		_sprite.setScale(Gdx.graphics.getWidth()/64);
+		_sprite.setScale(0.18f*Gdx.graphics.getWidth()/_sprite.getWidth());
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
 
-		_speed = 500.0f;
+		_speed = Gdx.graphics.getWidth()/3;
 		_dxdy = new Vector2();
 		_dest = new Vector2(_sprite.getX(), _sprite.getY());
 
-		_hp = 30;
+		_hp = 50;
 		_pointValue = _hp;
-		_fireRate = 1.0f;
+		_fireRate = 1.8f;
 		_BulletList = bulletList;
 		_weaponReady = false;
 		
@@ -54,7 +55,7 @@ public class Enemy extends Ship
 	public void fire() {
 		// fire!
 		if(_weaponReady) {
-			_BulletList.add(new Bullet(_sprite.getX(), _sprite.getY(), (float)Math.PI/2*3));
+			_BulletList.add(new EnemyBullet(_sprite.getX(), _sprite.getY(), (float)Math.PI/2*3));
 
 			_weaponReady = false;
 

@@ -10,14 +10,16 @@ import com.badlogic.gdx.utils.*;
 
 public class Ship extends Actor
 {
-	// TODO: replace Tmer with timeToNextFire
+	// TODO: 
+	// change fire to take an argument ArrayList<Bullet> instead of using a member
 	float _speed;
 	Vector2 _dxdy;
 	Vector2 _dest;
 	int _hp;
+	int _maxHP;
 	float _fireRate;
 	Timer _fireTimer;
-	ArrayList<Bullet> _BulletList;
+	Array<Bullet> _BulletList;
 	boolean _weaponReady;
 	int _pointValue;
 
@@ -83,4 +85,6 @@ public class Ship extends Actor
 	}
 	
 	public int getPoints() { return 0; }
+	public int getHP() { return _hp; }
+	public int getMaxHP() { return _maxHP; }
 }

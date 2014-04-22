@@ -4,7 +4,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import java.util.*;
-import android.text.style.*;
+//import android.text.style.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.Game;
 import com.logicalfallacy.shooter00.*;
@@ -13,34 +13,23 @@ public class GameScreen implements Screen
 {
 	MyGdxGame game;
 	
-	//Texture texture;
 	Background BG;
-	Hero hero;
 	enemyManager enemies;
+	Player player;
 	SpriteBatch batch;
-	ArrayList<Bullet> friendlyBullets;
 	
-	BitmapFont font;
-	TextureAtlas textureAtlas;
+	//BitmapFont font;
+	//TextureAtlas textureAtlas;
 	
 	public GameScreen(MyGdxGame mygame) {
 		game = mygame;
-	}
-	
-	@Override
-	public void create() {
+		
 		BG = new Background();
-		friendlyBullets = new ArrayList();
-		hero = new Hero(friendlyBullets);
+		player = new Player();
 		enemies = new enemyManager();
 		enemies.spawnWaves(true);
 
 		batch = new SpriteBatch();
-		
-		// test code:
-		//textureAtlas = new TextureAtlas("data/main");
-		font = new BitmapFont(Gdx.files.internal("data/sf_square.fnt"), false);
-		//textureAtlas.findRegion("calibri"), false);
 	}
 
 	@Override
@@ -48,20 +37,16 @@ public class GameScreen implements Screen
 	{
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 	    Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		
 		BG.update();
-		hero.update();
+		player.update();
 		enemies.update();
 		detectHits();
-		deleteBullets(friendlyBullets);
 
 		batch.begin();
 		BG.draw(batch);
 		enemies.draw(batch);
-		enemies.draw(batch);
-		drawBullets(batch, friendlyBullets);
-		hero.draw(batch);
-		//test:
-		font.draw(batch, Integer.toString(123), 50, 50);
+		player.draw(batch);
 		batch.end();
 	}
 	
@@ -85,26 +70,19 @@ public class GameScreen implements Screen
 
 	public void detectHits()
 	{
-		Rectangle intersection = new Rectangle();
-
 		for(int i = 0; i < enemies.getEnemyCount(); i++) {
-			for(int j = 0; j < friendlyBullets.size(); j++)
-				if(Intersector.intersectRectangles(
-					   friendlyBullets.get(j).getSprite().getBoundingRectangle(),
-					   enemies.getShipRect(i),
-					   intersection)) 
-				{
-					enemies.getEnemy(i).hit(friendlyBullets.get(j).getDamage());
-					friendlyBullets.remove(j);
-				}
+			player.bulletHits(enemies.getEnemy(i));
 			if(enemies.getEnemy(i).isDead())
 				enemies.kill(i);
 		}
 
-		enemies.bulletHits(hero);
+		enemies.bulletHits(player.getHero());
 		//if(hero.isDead())
 		// game over
+			
 	}
+	
+	public boolean isGameOver() { return player.isGameOver(); }
 
 	@Override
 	public void hide()
@@ -140,5 +118,8 @@ public class GameScreen implements Screen
 	public void dispose()
 	{
 		// TODO: Implement this method
+		batch.dispose();
+		enemies.dispose();
+		player.dispose();
 	}
 }

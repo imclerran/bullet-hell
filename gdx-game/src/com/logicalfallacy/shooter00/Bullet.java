@@ -11,10 +11,12 @@ public class Bullet extends Actor {
 		_damage = 10;
 		_angle = (float)Math.PI/2;
 		_speed = 500;
+		_dxdy = new Vector2();
 		calcDxDy();
 		_deleteMe = false;
 		Texture temp = new Texture(Gdx.files.internal("data/bullet.png"));
 		_sprite = new Sprite(temp);
+		temp.dispose();
 	}
 	
 	public Bullet(float x, float y)
@@ -25,8 +27,8 @@ public class Bullet extends Actor {
 		_dxdy = new Vector2();
 		calcDxDy();
 		_deleteMe = false;
-		Texture temp = new Texture(Gdx.files.internal("data/bullet.png"));
-		_sprite = new Sprite(temp);
+		_texture = new Texture(Gdx.files.internal("data/bullet.png"));
+		_sprite = new Sprite(_texture);
 		_sprite.setX(x);
 		_sprite.setY(y);
 		_sprite.setScale(Gdx.graphics.getWidth()/72);
@@ -41,8 +43,8 @@ public class Bullet extends Actor {
 		_dxdy = new Vector2();
 		calcDxDy();
 		_deleteMe = false;
-		Texture temp = new Texture(Gdx.files.internal("data/bullet.png"));
-		_sprite = new Sprite(temp);
+		_texture = new Texture(Gdx.files.internal("data/bullet.png"));
+		_sprite = new Sprite(_texture);
 		_sprite.setX(x);
 		_sprite.setY(y);
 		_sprite.setScale(Gdx.graphics.getWidth()/72);

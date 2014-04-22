@@ -4,7 +4,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import java.util.*;
-import android.text.style.*;
+//import android.text.style.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.scenes.scene2d.*;
