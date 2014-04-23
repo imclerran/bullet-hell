@@ -80,6 +80,4 @@ public class Bullet extends Actor {
 	}
 	
 	public int getDamage() { return _damage; }
-	
-	
 }

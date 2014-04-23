@@ -76,7 +76,8 @@ public class GameScreen implements Screen
 				enemies.kill(i);
 		}
 
-		enemies.bulletHits(player.getHero());
+		if(!player.getHero().isDead())
+			enemies.bulletHits(player.getHero());
 		//if(hero.isDead())
 		// game over
 			

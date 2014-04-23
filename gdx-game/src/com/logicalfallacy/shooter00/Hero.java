@@ -10,14 +10,18 @@ import com.badlogic.gdx.utils.*;
 
 public class Hero extends Ship
 {
-	//ArrayList <HeroBullet> _bulletList;
+
+	float _defenseModifier;
+	float _defaultFireRate;
+	Timer _powerupTimer;
+	
 	public Hero(Array<Bullet> bulletList)
 	{
-		_texture = new Texture(Gdx.files.internal("data/hero3_views.png"));
-		_views = TextureRegion.split(_texture, 16, 16);
-		_sprite = new Sprite(_views[0][0]);
-		//_texture = new Texture(Gdx.files.internal("data/badass.png"));
-		//_sprite = new Sprite(_texture);
+		//_texture = new Texture(Gdx.files.internal("data/hero3_views.png"));
+		//_views = TextureRegion.split(_texture, 16, 16);
+		//_sprite = new Sprite(_views[0][0]);
+		_texture = new Texture(Gdx.files.internal("data/vv.png"));
+		_sprite = new Sprite(_texture);
 		_sprite.setX(Gdx.graphics.getWidth()/2);
 		_sprite.setY(Gdx.graphics.getWidth()/8);
 		_sprite.setScale(0.2f*Gdx.graphics.getWidth()/_sprite.getWidth());
@@ -27,11 +31,20 @@ public class Hero extends Ship
 		_dxdy = new Vector2();
 		_dest = new Vector2();
 		
-		_maxHP = 100;
+		_maxHP = 100f;
 		_hp = _maxHP;
-		_fireRate = 0.22f;
+		_defaultFireRate = 0.22f;
+		_fireRate = _defaultFireRate;
 		_BulletList = bulletList;
 		_weaponReady = true;
+		
+		_defenseModifier = 0;
+		_powerupTimer.schedule(new Timer.Task(){
+				@Override
+				public void run() {
+					_defenseModifier = 1;
+				} // end run()
+			}, 1.5f);
 	}
 	
 	// data members:
@@ -47,7 +60,7 @@ public class Hero extends Ship
 			// TODO: Fix texture changing (bank left/right)
 			super.update();
 		
-			
+			/*
 			// bank right
 			if(_dxdy.x > 0.0f + (_speed/2.0f))
 				_sprite.setTexture(_views[0][2].getTexture());
@@ -56,7 +69,7 @@ public class Hero extends Ship
 				_sprite.setTexture(_views[0][1].getTexture());
 				
 			else // forward
-				_sprite.setTexture(_views[0][0].getTexture());
+				_sprite.setTexture(_views[0][0].getTexture());*/
 		}
 		
 	}
@@ -96,9 +109,30 @@ public class Hero extends Ship
 	}
 
 	@Override
+	public void hit(int damage) {
+		_hp = _hp - damage*_defenseModifier;
+	}
+
+	@Override
 	public void draw(Batch batch)
 	{
 		if(!this.isDead())
 			super.draw(batch);
 	}
+	
+	public float getDefenseModifier() { return _defenseModifier; }
+	public void setDefenseModifier(float defenceModifier) { _defenseModifier = defenceModifier; }
+	
+	public void addHP(float bonus) {
+		_hp += bonus;
+		if(_hp > _maxHP)
+			_hp = _maxHP;
+	}
+	
+	public Timer getPowerupTimer() { return _powerupTimer; }
+	
+	public float getFireRate() { return _fireRate; }
+	public void setFireRate(float fireRate) { _fireRate = fireRate; }
+	public float getDefaultFireRate() { return _defaultFireRate; }
+	
 }

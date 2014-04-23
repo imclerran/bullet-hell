@@ -12,9 +12,11 @@ public class HealthBar extends Actor
 {
 	float _percent;
 	int _lives;
+	float _defenseModifier;
 	Texture _full;
 	Texture _mid;
 	Texture _low;
+	Texture _invincible;
 	Texture _lifeTexture;
 	Sprite _lifeSprite;
 	
@@ -24,6 +26,7 @@ public class HealthBar extends Actor
 		_full = new Texture(Gdx.files.internal("data/health_full.png"));
 		_mid = new Texture(Gdx.files.internal("data/health_mid.png"));
 		_low = new Texture(Gdx.files.internal("data/health_low.png"));
+		_invincible = new Texture(Gdx.files.internal("data/health_invincible.png"));
 		_lifeTexture = new Texture(Gdx.files.internal("data/hero.png"));
 		
 		_sprite = new Sprite(_full);
@@ -42,6 +45,8 @@ public class HealthBar extends Actor
 	public void setPercent(float percent) { _percent = percent; }
 	
 	public void setLives(int lives) { _lives = lives; }
+	
+	public void setDefenseModifier(float defenseModifier) { _defenseModifier = defenseModifier; }
 
 	@Override
 	public void update() {
@@ -49,7 +54,9 @@ public class HealthBar extends Actor
 			_percent*Gdx.graphics.getWidth()/_sprite.getWidth(),
 			0.02f*Gdx.graphics.getHeight()/_sprite.getHeight());
 		
-		if(_percent < 0.33f)
+		if(_defenseModifier == 0f)
+			_sprite.setTexture(_invincible);
+		else if(_percent < 0.33f)
 			_sprite.setTexture(_low);
 			
 		else if(_percent < 0.66f)

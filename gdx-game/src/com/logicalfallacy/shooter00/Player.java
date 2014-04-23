@@ -21,12 +21,14 @@ public class Player
 	float _respawnDelay;
 	boolean _timerRunning;
 	HealthBar _hpBar;
+	Array<Powerup> _powerups;
 	
 	BitmapFont font;
 	TextureAtlas textureAtlas;
 
 	public Player() {
 		_bullets = new Array();
+		_powerups = new Array();
 		_hero = new Hero(_bullets);
 		_score = 0;
 		_lives = 3;
@@ -46,11 +48,17 @@ public class Player
 		for(int i = 0; i < _bullets.size; i++) {
 			_bullets.get(i).update();
 		}
-
 		deleteBullets();
 		
-		_hpBar.setPercent((float)_hero.getHP()/(float)_hero.getMaxHP());
+		for(int i = 0; i < _powerups.size; i++) {
+			_powerups.get(i).update();
+		}
+		powerupAcquire();
+		deletePowerups();
+		
+		_hpBar.setPercent(_hero.getHP()/_hero.getMaxHP());
 		_hpBar.setLives(_lives);
+		_hpBar.setDefenseModifier(_hero.getDefenseModifier());
 		_hpBar.update();
 		
 		if(_hero.isDead() && _lives > 0) {
@@ -78,16 +86,42 @@ public class Player
 	}
 	
 	public void draw(Batch batch) {
-		_hpBar.draw(batch);
-		
 		for(int i = 0; i < _bullets.size; i++) {
 			_bullets.get(i).draw(batch);
+		}
+		
+		for(int i = 0; i < _powerups.size; i++) {
+			_powerups.get(i).draw(batch);
 		}
 
 		_hero.draw(batch);
 		
-		font.draw(batch, "HP: " + Integer.toString(_hero.getHP()), 0, 0);
+		_hpBar.draw(batch);
 		font.draw(batch, "SCORE: " + Integer.toString(_score), 0, font.getLineHeight());
+	}
+	
+	public void powerupAcquire() {
+		Rectangle intersection = new Rectangle();
+		for(int i = 0; i < _powerups.size; i++) {
+			if(Intersector.intersectRectangles(
+				   getPowerupRect(i), _hero.getRectangle(), intersection)) 
+			{
+				_powerups.get(i).applyPickup(this);
+				_powerups.removeIndex(i).dispose();
+			}
+		}
+	}
+	
+	public void addRandomPowerup(float x, float y) {
+		float rand = (float)Math.random();
+		
+		if(rand < 0.5f)
+			_powerups.add(new HealthPowerup(x, y));
+		else if(rand < 0.75f)
+			_powerups.add(new ExtraLifePowerup(x, y));
+		else
+			_powerups.add(new FireRatePowerup(x, y));
+			
 	}
 	
 	public void bulletHits(Ship target) {
@@ -98,10 +132,10 @@ public class Player
 				   getBulletRect(i), target.getRectangle(), intersection))
 			{
 				target.hit(_bullets.get(i).getDamage());
-				Bullet item = _bullets.get(i);
 				_bullets.removeIndex(i).dispose();
-				item.dispose();
 				_score += target.getPoints();
+				if(target.isDead() && Math.random() < 0.02f)
+					addRandomPowerup(target.getSprite().getX(), target.getSprite().getY());
 			}
 		}
 	}
@@ -115,6 +149,15 @@ public class Player
 		}
 	}
 	
+	public void deletePowerups()
+	{
+		for(int i = 0; i < _powerups.size; i++) {
+			if(_powerups.get(i)._deleteMe) {
+				_powerups.removeIndex(i).dispose();
+			}
+		}
+	}
+	
 	public Rectangle getBulletRect(int i) {
 		return _bullets.get(i).getRectangle();
 	}
@@ -123,9 +166,15 @@ public class Player
 		return _hero.getRectangle();
 	}
 	
+	public Rectangle getPowerupRect(int i) {
+		return _powerups.get(i).getRectangle();
+	}
+	
 	public Hero getHero() { return _hero; }
 	
 	public int getScore() { return _score; }
+	
+	public void addLives(int lives) { _lives += lives; }
 	
 	public boolean isGameOver() { return _gameOver; }
 	
@@ -135,6 +184,10 @@ public class Player
 		
 		for(int i = 0; i < _bullets.size; i++) {
 			_bullets.removeIndex(i).dispose();
+		}
+		
+		for(int i = 0; i < _powerups.size; i++) {
+			_powerups.removeIndex(i).dispose();
 		}
 	}
 }

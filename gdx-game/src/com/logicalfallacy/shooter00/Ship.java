@@ -15,8 +15,8 @@ public class Ship extends Actor
 	float _speed;
 	Vector2 _dxdy;
 	Vector2 _dest;
-	int _hp;
-	int _maxHP;
+	float _hp;
+	float _maxHP;
 	float _fireRate;
 	Timer _fireTimer;
 	Array<Bullet> _BulletList;
@@ -85,6 +85,6 @@ public class Ship extends Actor
 	}
 	
 	public int getPoints() { return 0; }
-	public int getHP() { return _hp; }
-	public int getMaxHP() { return _maxHP; }
+	public float getHP() { return _hp; }
+	public float getMaxHP() { return _maxHP; }
 }

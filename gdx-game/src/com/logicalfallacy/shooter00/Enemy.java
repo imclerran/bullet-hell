@@ -10,6 +10,14 @@ import com.badlogic.gdx.utils.*;
 
 public class Enemy extends Ship
 {
+	public Enemy(Array<Bullet> bulletList, String jsonText) {
+		Json json = new Json();
+		//this = json.fromJson(Enemy.class, jsonText);
+		
+		_BulletList = bulletList;
+		
+	}
+	
 	public Enemy(Array<Bullet> bulletList)
 	{
 		_texture = new Texture(Gdx.files.internal("data/badass.png"));
@@ -24,8 +32,8 @@ public class Enemy extends Ship
 		_dxdy = new Vector2();
 		_dest = new Vector2(_sprite.getX(), _sprite.getY());
 
-		_hp = 50;
-		_pointValue = _hp;
+		_hp = 50f;
+		_pointValue = (int)_hp;
 		_fireRate = 1.8f;
 		_BulletList = bulletList;
 		_weaponReady = false;
@@ -41,7 +49,6 @@ public class Enemy extends Ship
 	@Override
 	public boolean updateDestination()
 	{
-		// TODO: Implement this method
 		if(_sprite.getX() == _dest.x)
 			_dest.x = (float)Math.random() * Gdx.graphics.getWidth();
 		if(_sprite.getY() == _dest.y)

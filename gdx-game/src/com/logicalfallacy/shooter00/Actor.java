@@ -12,6 +12,7 @@ public class Actor implements Disposable
 	// data members:
 	Sprite _sprite;
 	Texture _texture;
+	public boolean _deleteMe;
 	
 	// TODO: Move boolean _deleteMe to actor
 

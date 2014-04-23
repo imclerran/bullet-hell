@@ -5,9 +5,12 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.Audio;
+import com.badlogic.gdx.audio.*;
 
 public class HeroBullet extends Bullet
-{	
+{
+	public Sound _sound;
 	public HeroBullet(float x, float y)
 	{
 		_damage = 10;
@@ -22,6 +25,8 @@ public class HeroBullet extends Bullet
 		_sprite.setY(y);
 		_sprite.setScale(0.03f*Gdx.graphics.getWidth()/_sprite.getWidth());
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
+		//_sound = Gdx.audio.newSound(Gdx.files.internal("gun_silencer.wav"));
+		//_sound.play();
 	}
 	
 	public HeroBullet(float x, float y, float angle)
@@ -38,6 +43,15 @@ public class HeroBullet extends Bullet
 		_sprite.setY(y);
 		_sprite.setScale(0.03f*Gdx.graphics.getWidth()/_sprite.getWidth());
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
-
+		//_sound = Gdx.audio.newSound(Gdx.files.internal("data/gun_silencer.mp3"));
+		//_sound.play();
 	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		//_sound.dispose();
+	}
+	
+	
 }

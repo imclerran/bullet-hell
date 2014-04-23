@@ -20,7 +20,7 @@ public class enemyManager
 		_bullets = new Array();
 		_wave = 0;
 		_waveModifier = 3;
-		_maxWave = 7;
+		_maxWave = 4;
 		_spawnWaves = false;
 	}
 	
@@ -35,7 +35,8 @@ public class enemyManager
 	
 	public void killEnemy(int i) { _enemies.removeIndex(i).dispose(); }
 	
-	//public ArrayList<Bullet> getBullets() { return _bullets; }
+	public Array<Bullet> getBullets() { return _bullets; }
+	
 	public int getBulletCount() { return _bullets.size; }
 	
 	public void update() {
@@ -51,6 +52,12 @@ public class enemyManager
 		
 		if(_spawnWaves && 0 == _enemies.size)
 			waveSpawn();
+		
+		if(!_spawnWaves)
+			continuousSpawn();
+		
+		if(_wave == _maxWave)
+			semiWaveSpawn();
 	}
 	
 	public void deleteBullets()
@@ -59,14 +66,12 @@ public class enemyManager
 		{
 			if(_bullets.get(i)._deleteMe)
 			{
-				//_bullets.get(i).dispose();
 				_bullets.removeIndex(i).dispose();
 			}
 		}
 	}
 	
 	public void kill(int i) {
-		//_enemies.get(i).dispose();
 		_enemies.removeIndex(i).dispose();
 	}
 	
@@ -88,7 +93,6 @@ public class enemyManager
 				getBulletRect(i), target.getRectangle(), intersection))
 			{
 				target.hit(_bullets.get(i).getDamage());
-				//_bullets.get(i).dispose();
 				_bullets.removeIndex(i).dispose();
 			}
 		}
@@ -104,24 +108,32 @@ public class enemyManager
 	
 	public void waveSpawn() {
 		if(_wave < _maxWave)
-			_wave++;
-		waveSpawn(_wave);
+			waveSpawn(++_wave);
 	}
 	
 	public void waveSpawn(int wave) {
 		spawn(wave * _waveModifier);
 	}
 	
+	public void continuousSpawn()
+	{
+		if(_enemies.size < (_wave * _waveModifier))
+			spawn(1);
+	}
+	
+	public void semiWaveSpawn() {
+		if(_enemies.size < (2*_wave * _waveModifier)/3)
+			spawn((_wave * _waveModifier)/3);
+	}
+	
 	public void spawnWaves(boolean spawnWaves) { _spawnWaves = spawnWaves; }
 	
 	public void dispose() {
 		for(int i = 0; i < _bullets.size; i++) {
-			//_bullets.get(i).dispose();
 			_bullets.removeIndex(i).dispose();
 		}
 
 		for(int i = 0; i < _enemies.size; i++) {
-			//_enemies.get(i).dispose();
 			_enemies.removeIndex(i).dispose();
 		}
 	}
