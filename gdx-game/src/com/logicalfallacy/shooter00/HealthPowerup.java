@@ -7,18 +7,21 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.assets.*;
 
 public class HealthPowerup extends Powerup
 {
 	float _healthBonus;
 	
-	public HealthPowerup(float x, float y) {
-		_texture = new Texture(Gdx.files.internal("data/health_pickup.png"));
+	public HealthPowerup(float x, float y, AssetManager assetManager) {
+		_texture = assetManager.get("data/health_powerup.png", Texture.class);
 		_sprite = new Sprite(_texture);
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
 		_sprite.setPosition(x, y);
 		_sprite.setScale(0.1f*Gdx.graphics.getWidth()/_sprite.getWidth());
+		
 		_healthBonus = 50f;
+		_duration = 0f; // one time bonus
 		
 		_dxdy = new Vector2();
 		_dest = new Vector2();
@@ -26,9 +29,9 @@ public class HealthPowerup extends Powerup
 		_dest.y = (float)Math.random() * Gdx.graphics.getHeight()/2f;
 		_speed = 0.125f * Gdx.graphics.getHeight();
 		
-		_onScreen = 15f;
+		_onScreen = 20f;
 		_expired = false;
-		_onScreenTimer.schedule(new Timer.Task(){
+		_timer.schedule(new Timer.Task(){
 				@Override
 				public void run() {
 					_expired = true;
@@ -37,9 +40,14 @@ public class HealthPowerup extends Powerup
 	}
 
 	@Override
+	public void activate() {
+		_deleteMe = true;
+	}
+	
+
+	@Override
 	public void applyPickup(Player player)
 	{
-		// TODO: Implement this method
 		player.getHero().addHP(_healthBonus);
 	}
 }

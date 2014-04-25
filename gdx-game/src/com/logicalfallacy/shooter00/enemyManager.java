@@ -4,9 +4,12 @@ import java.util.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.assets.AssetManager;
+import android.content.res.*;
 
 public class enemyManager
 {
+	AssetManager _assetManager;
 	Array<Enemy> _enemies;
 	Array<Bullet> _bullets;
 	int _wave;
@@ -14,8 +17,9 @@ public class enemyManager
 	int _maxWave;
 	boolean _spawnWaves;
 	
-	public enemyManager()
+	public enemyManager(AssetManager assetManager)
 	{
+		_assetManager = assetManager;
 		_enemies = new Array();
 		_bullets = new Array();
 		_wave = 0;
@@ -26,14 +30,14 @@ public class enemyManager
 	
 	public void spawn(int count) {
 		for(int i = 0; i < count; i++)
-			_enemies.add(new Enemy(_bullets));
+			_enemies.add(new Enemy(_bullets, _assetManager));
 	}
 	
 	public Enemy getEnemy(int i) { return _enemies.get(i); }
 	public int getEnemyCount() { return _enemies.size; }
 	
 	
-	public void killEnemy(int i) { _enemies.removeIndex(i).dispose(); }
+	public void killEnemy(int i) { _enemies.removeIndex(i); }
 	
 	public Array<Bullet> getBullets() { return _bullets; }
 	
@@ -66,13 +70,13 @@ public class enemyManager
 		{
 			if(_bullets.get(i)._deleteMe)
 			{
-				_bullets.removeIndex(i).dispose();
+				_bullets.removeIndex(i);
 			}
 		}
 	}
 	
 	public void kill(int i) {
-		_enemies.removeIndex(i).dispose();
+		_enemies.removeIndex(i);
 	}
 	
 	public void draw(Batch batch) {
@@ -93,7 +97,7 @@ public class enemyManager
 				getBulletRect(i), target.getRectangle(), intersection))
 			{
 				target.hit(_bullets.get(i).getDamage());
-				_bullets.removeIndex(i).dispose();
+				_bullets.removeIndex(i);
 			}
 		}
 	}
@@ -127,14 +131,4 @@ public class enemyManager
 	}
 	
 	public void spawnWaves(boolean spawnWaves) { _spawnWaves = spawnWaves; }
-	
-	public void dispose() {
-		for(int i = 0; i < _bullets.size; i++) {
-			_bullets.removeIndex(i).dispose();
-		}
-
-		for(int i = 0; i < _enemies.size; i++) {
-			_enemies.removeIndex(i).dispose();
-		}
-	}
 }	

@@ -5,6 +5,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.assets.*;
 
 public class Bullet extends Actor {
 	public Bullet() {
@@ -19,7 +20,7 @@ public class Bullet extends Actor {
 		temp.dispose();
 	}
 	
-	public Bullet(float x, float y)
+	public Bullet(float x, float y, AssetManager assetManager)
 	{
 		_damage = 10;
 		_angle = (float)Math.PI/2;
@@ -27,7 +28,7 @@ public class Bullet extends Actor {
 		_dxdy = new Vector2();
 		calcDxDy();
 		_deleteMe = false;
-		_texture = new Texture(Gdx.files.internal("data/bullet.png"));
+		_texture = assetManager.get("data/bullet.png", Texture.class);
 		_sprite = new Sprite(_texture);
 		_sprite.setX(x);
 		_sprite.setY(y);
@@ -35,7 +36,7 @@ public class Bullet extends Actor {
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
 	}
 	
-	public Bullet(float x, float y, float angle)
+	public Bullet(float x, float y, float angle, AssetManager assetManager)
 	{
 		_damage = 10;
 		_angle = angle;
@@ -43,7 +44,7 @@ public class Bullet extends Actor {
 		_dxdy = new Vector2();
 		calcDxDy();
 		_deleteMe = false;
-		_texture = new Texture(Gdx.files.internal("data/bullet.png"));
+		_texture = assetManager.get("data/bullet.png", Texture.class);
 		_sprite = new Sprite(_texture);
 		_sprite.setX(x);
 		_sprite.setY(y);

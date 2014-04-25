@@ -3,14 +3,15 @@ package com.logicalfallacy.shooter00;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.assets.*;
 
 public class Background
 {
-	public Background()
+	public Background(AssetManager assetManager)
 	{
-		_texture = new Texture(Gdx.files.internal("data/runway_tile_p2.png"));
+		_texture = assetManager.get("data/space_background.png", Texture.class);
 		_y = new float[9];
-		_dy = 0.2f*Gdx.graphics.getHeight();
+		_dy = 0.08f*Gdx.graphics.getHeight(); // 0.2f*
 		_offset = 0.0f;
 		_tileHeight = Gdx.graphics.getHeight() / 8;
 		_tileWidth = Gdx.graphics.getWidth();

@@ -7,11 +7,13 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.assets.*;
 
 public class Ship extends Actor
 {
 	// TODO: 
 	// change fire to take an argument ArrayList<Bullet> instead of using a member
+	AssetManager _assetManager;
 	float _speed;
 	Vector2 _dxdy;
 	Vector2 _dest;
@@ -58,7 +60,7 @@ public class Ship extends Actor
 				@Override
 				public void run() {
 					// fire!
-					_BulletList.add(new Bullet(_sprite.getX(), _sprite.getY()));
+					_BulletList.add(new Bullet(_sprite.getX(), _sprite.getY(), _assetManager));
 				}
 			}, _fireRate);
 	}

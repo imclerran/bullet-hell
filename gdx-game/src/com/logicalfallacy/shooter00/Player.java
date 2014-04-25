@@ -7,9 +7,11 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.assets.*;
 
 public class Player
 {
+	AssetManager _assetManager;
 	Hero _hero;
 	Array<Bullet> _bullets;
 	int _score;
@@ -22,14 +24,19 @@ public class Player
 	boolean _timerRunning;
 	HealthBar _hpBar;
 	Array<Powerup> _powerups;
+	Array<Powerup> _activePowerups;
 	
 	BitmapFont font;
 	TextureAtlas textureAtlas;
 
-	public Player() {
+	public Player(AssetManager assetManager) {
+		_assetManager = assetManager;
+		
 		_bullets = new Array();
 		_powerups = new Array();
-		_hero = new Hero(_bullets);
+		_activePowerups = new Array();
+		_hero = new Hero(_bullets, _assetManager);
+		_activePowerups.add(new RespawnPowerup());
 		_score = 0;
 		_lives = 3;
 		_gameOver = false;
@@ -39,7 +46,7 @@ public class Player
 		_timerRunning = false;
 		
 		font = new BitmapFont(Gdx.files.internal("data/sf_square.fnt"), false);
-		_hpBar = new HealthBar();
+		_hpBar = new HealthBar(_assetManager);
 	}
 	
 	public void update() {
@@ -50,11 +57,7 @@ public class Player
 		}
 		deleteBullets();
 		
-		for(int i = 0; i < _powerups.size; i++) {
-			_powerups.get(i).update();
-		}
-		powerupAcquire();
-		deletePowerups();
+		updatePowerups();
 		
 		_hpBar.setPercent(_hero.getHP()/_hero.getMaxHP());
 		_hpBar.setLives(_lives);
@@ -75,14 +78,16 @@ public class Player
 			if(_canRespawn)
 			{
 				_timerRunning = false;
-				_hero.dispose();
-				_hero = new Hero(_bullets);
+				_hero = new Hero(_bullets, _assetManager);
+				_activePowerups.add(new RespawnPowerup());
 				_lives--;
 				_canRespawn = false;
 			}
 		}
 		else if(_hero.isDead() && _lives <= 0)
+		{
 			_gameOver = true;
+		}
 	}
 	
 	public void draw(Batch batch) {
@@ -100,14 +105,33 @@ public class Player
 		font.draw(batch, "SCORE: " + Integer.toString(_score), 0, font.getLineHeight());
 	}
 	
+	public void updatePowerups() {
+		
+		for(int i = 0; i < _powerups.size; i++) {
+			_powerups.get(i).update();
+		}
+		
+		powerupAcquire();
+		deletePowerups();
+		
+		_hero.setDefenseModifier(1);
+		_hero.setFireRate(_hero.getDefaultFireRate());
+		
+		for(int i = 0; i < _activePowerups.size; i++) {
+			_activePowerups.get(i).applyPickup(this);
+			if(_activePowerups.get(i)._deleteMe)
+				_activePowerups.removeIndex(i);
+		}
+	}
+	
 	public void powerupAcquire() {
 		Rectangle intersection = new Rectangle();
 		for(int i = 0; i < _powerups.size; i++) {
 			if(Intersector.intersectRectangles(
 				   getPowerupRect(i), _hero.getRectangle(), intersection)) 
 			{
-				_powerups.get(i).applyPickup(this);
-				_powerups.removeIndex(i).dispose();
+				_activePowerups.add(_powerups.removeIndex(i));
+				_activePowerups.get(_activePowerups.size-1).activate();
 			}
 		}
 	}
@@ -115,12 +139,14 @@ public class Player
 	public void addRandomPowerup(float x, float y) {
 		float rand = (float)Math.random();
 		
-		if(rand < 0.5f)
-			_powerups.add(new HealthPowerup(x, y));
-		else if(rand < 0.75f)
-			_powerups.add(new ExtraLifePowerup(x, y));
+		if(rand < 0.25f)
+			_powerups.add(new RapidFirePowerup(x, y, _assetManager));
+		else if(rand < 0.5f)
+			_powerups.add(new InvinciblePowerup(x, y, _assetManager));
+		else if(rand < 0.9f)
+			_powerups.add(new HealthPowerup(x, y, _assetManager));
 		else
-			_powerups.add(new FireRatePowerup(x, y));
+			_powerups.add(new OneUpPowerup(x, y, _assetManager));
 			
 	}
 	
@@ -132,7 +158,7 @@ public class Player
 				   getBulletRect(i), target.getRectangle(), intersection))
 			{
 				target.hit(_bullets.get(i).getDamage());
-				_bullets.removeIndex(i).dispose();
+				_bullets.removeIndex(i);
 				_score += target.getPoints();
 				if(target.isDead() && Math.random() < 0.02f)
 					addRandomPowerup(target.getSprite().getX(), target.getSprite().getY());
@@ -144,7 +170,7 @@ public class Player
 	{
 		for(int i = 0; i < _bullets.size; i++) {
 			if(_bullets.get(i)._deleteMe) {
-				_bullets.removeIndex(i).dispose();
+				_bullets.removeIndex(i);
 			}
 		}
 	}
@@ -153,7 +179,7 @@ public class Player
 	{
 		for(int i = 0; i < _powerups.size; i++) {
 			if(_powerups.get(i)._deleteMe) {
-				_powerups.removeIndex(i).dispose();
+				_powerups.removeIndex(i);
 			}
 		}
 	}
@@ -180,14 +206,5 @@ public class Player
 	
 	public void dispose() {
 		font.dispose();
-		_hero.dispose();
-		
-		for(int i = 0; i < _bullets.size; i++) {
-			_bullets.removeIndex(i).dispose();
-		}
-		
-		for(int i = 0; i < _powerups.size; i++) {
-			_powerups.removeIndex(i).dispose();
-		}
 	}
 }

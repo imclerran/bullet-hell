@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.assets.*;
 
 public class HealthBar extends Actor
 {
@@ -20,14 +21,14 @@ public class HealthBar extends Actor
 	Texture _lifeTexture;
 	Sprite _lifeSprite;
 	
-	public HealthBar() {
+	public HealthBar(AssetManager assetManager) {
 		_percent = 100f;
 		
-		_full = new Texture(Gdx.files.internal("data/health_full.png"));
-		_mid = new Texture(Gdx.files.internal("data/health_mid.png"));
-		_low = new Texture(Gdx.files.internal("data/health_low.png"));
-		_invincible = new Texture(Gdx.files.internal("data/health_invincible.png"));
-		_lifeTexture = new Texture(Gdx.files.internal("data/hero.png"));
+		_full = assetManager.get("data/health_full.png", Texture.class);
+		_mid = assetManager.get("data/health_mid.png", Texture.class);
+		_low = assetManager.get("data/health_low.png", Texture.class);
+		_invincible = assetManager.get("data/health_invincible.png", Texture.class);
+		_lifeTexture = assetManager.get("data/hero.png", Texture.class);
 		
 		_sprite = new Sprite(_full);
 		_sprite.setOrigin(0, _sprite.getHeight());

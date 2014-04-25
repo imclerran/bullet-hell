@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Disposable;
 
-public class Actor implements Disposable
+public class Actor
 {
 	// data members:
 	Sprite _sprite;
@@ -31,7 +31,8 @@ public class Actor implements Disposable
 		return _sprite.getBoundingRectangle();
 	}
 	
-	public void dispose() {
-		_texture.dispose();
-	}
+	/*public void dispose() {
+		if(_texture != null)
+			_texture.dispose();
+	}*/
 }

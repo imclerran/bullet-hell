@@ -13,8 +13,9 @@ public class Powerup extends Actor
 	Vector2 _dxdy;
 	Vector2 _dest;
 	float _onScreen;
-	Timer _onScreenTimer;
+	Timer _timer;
 	boolean _expired;
+	float _duration;
 	
 	@Override
 	public void update()
@@ -90,5 +91,8 @@ public class Powerup extends Actor
 		return true;
 	}
 	
-	public void applyPickup(Player player) {}
+	public void activate() {}
+	
+	public void applyPickup(Player player) {
+	}
 }

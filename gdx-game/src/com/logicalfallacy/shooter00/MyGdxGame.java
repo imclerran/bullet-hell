@@ -4,43 +4,72 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import java.util.*;
-//import android.text.style.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.audio.*;
 
 import com.logicalfallacy.shooter00.screens.*;
+import com.badlogic.gdx.assets.*;
 
-public class MyGdxGame extends Game //implements ApplicationListener
+public class MyGdxGame extends Game
 {
+	AssetManager assetManager;
 	MainMenuScreen mainMenuScreen;
-	GameScreen gameScreen;
-	LoadingScreen loadingScreen;
-	boolean gameOver;
+	public GameScreen gameScreen;
+	public LoadingScreen loadingScreen;
+	public boolean gameOver;
+	ProfileManager profile;
 
 	@Override
 	public void create()
 	{
-		//mainMenuScreen = new MainMenuScreen(this);
-		gameScreen = new GameScreen(this);
+		assetManager = new AssetManager();
+		loadAssets();
+		
+		profile = new ProfileManager();
+		mainMenuScreen = new MainMenuScreen(this);
+		gameScreen = new GameScreen(this, assetManager);
 		loadingScreen = new LoadingScreen(this);
 		setScreen(loadingScreen);
+	}
+	
+	public void loadAssets() {
+		assetManager.load("data/game_over.png", Texture.class);
+		assetManager.load("data/space_background.png", Texture.class);
+		assetManager.load("data/vv.png", Texture.class);
+		assetManager.load("data/blue_bullet.png", Texture.class);
+		assetManager.load("data/invincible_powerup.png", Texture.class);
+		assetManager.load("data/1up_powerup.png", Texture.class);
+		assetManager.load("data/hunter.png", Texture.class);
+		assetManager.load("data/enemy_bullet.png", Texture.class);
+		assetManager.load("data/fire_rate_powerup.png", Texture.class);
+		assetManager.load("data/health_powerup.png", Texture.class);
+		assetManager.load("data/health_full.png", Texture.class);
+		assetManager.load("data/health_mid.png", Texture.class);
+		assetManager.load("data/health_low.png", Texture.class);
+		assetManager.load("data/health_invincible.png", Texture.class);
+		assetManager.load("data/hero.png", Texture.class);
+		
+		assetManager.load("data/gun_silencer.mp3", Sound.class);
+		assetManager.load("data/blaster-01.wav", Sound.class);
+		assetManager.load("data/pulse_rifle.wav", Sound.class);
+		assetManager.finishLoading();
+		
 	}
 
 	@Override
 	public void render()
 	{
-		if(loadingScreen.isFinished())
+		if(assetManager.update() &&loadingScreen.isFinished())
 		{
-			setScreen(gameScreen);
+			setScreen(mainMenuScreen);
 			loadingScreen.reset();
 		}
 		if(gameScreen.isGameOver())
 		{
 			gameScreen.dispose();
-			gameScreen = new GameScreen(this);
-			loadingScreen.dispose();
-			loadingScreen = new LoadingScreen(this);
-			setScreen(loadingScreen);
+			gameScreen = new GameScreen(this, assetManager);
+			setScreen(mainMenuScreen);
 		}
 		super.render();
 	}
@@ -49,6 +78,7 @@ public class MyGdxGame extends Game //implements ApplicationListener
 	@Override
 	public void dispose()
 	{
+		assetManager.dispose();
 		loadingScreen.dispose();
 		gameScreen.dispose();
 		//mainMenuScreen.dispose();

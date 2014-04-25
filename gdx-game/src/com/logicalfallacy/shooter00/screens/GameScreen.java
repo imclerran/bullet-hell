@@ -3,32 +3,50 @@ package com.logicalfallacy.shooter00.screens;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
-import java.util.*;
+//import java.util.*;
 //import android.text.style.*;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.Game;
 import com.logicalfallacy.shooter00.*;
+import com.badlogic.gdx.assets.*;
 
 public class GameScreen implements Screen
 {
 	MyGdxGame game;
+	AssetManager assetManager;
 	
 	Background BG;
 	enemyManager enemies;
 	Player player;
 	SpriteBatch batch;
+	boolean gameOver;
+	Timer timer;
+	boolean timerRunning;
+	Texture gameOverTexture;
+	Sprite gameOverSprite;
+	
 	
 	//BitmapFont font;
 	//TextureAtlas textureAtlas;
 	
-	public GameScreen(MyGdxGame mygame) {
+	public GameScreen(MyGdxGame mygame, AssetManager manager) {
 		game = mygame;
+		assetManager = manager;
 		
-		BG = new Background();
-		player = new Player();
-		enemies = new enemyManager();
+		BG = new Background(assetManager);
+		player = new Player(assetManager);
+		enemies = new enemyManager(assetManager);
 		enemies.spawnWaves(true);
 
+		gameOverTexture = assetManager.get("data/game_over.png", Texture.class);
+		gameOverSprite = new Sprite(gameOverTexture);
+		gameOverSprite.setOrigin(0,0);
+		gameOverSprite.setScale(Gdx.graphics.getWidth()/gameOverSprite.getWidth());
+		gameOverSprite.setX(0);
+		gameOverSprite.setY(Gdx.graphics.getHeight()/2-gameOverSprite.getHeight()/2);
+		timer = new Timer();
+		timerRunning = false;
 		batch = new SpriteBatch();
 	}
 
@@ -37,6 +55,16 @@ public class GameScreen implements Screen
 	{
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 	    Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+
+		if(player.isGameOver() && !timerRunning) {
+			timerRunning = true;
+			timer.schedule(new Timer.Task(){
+					@Override
+					public void run() {
+						gameOver = true;
+					} // end run()
+				}, 5f);
+		}
 		
 		BG.update();
 		player.update();
@@ -47,10 +75,12 @@ public class GameScreen implements Screen
 		BG.draw(batch);
 		enemies.draw(batch);
 		player.draw(batch);
+		if(player.isGameOver())
+			gameOverSprite.draw(batch);
 		batch.end();
 	}
 	
-	public void drawBullets(Batch batch, ArrayList<Bullet> bullets)
+	/*public void drawBullets(Batch batch, ArrayList<Bullet> bullets)
 	{
 		for(Bullet b : bullets)
 		{
@@ -66,7 +96,7 @@ public class GameScreen implements Screen
 			if(bullets.get(i)._deleteMe)
 				bullets.remove(i);
 		}
-	}
+	}*/
 
 	public void detectHits()
 	{
@@ -83,7 +113,7 @@ public class GameScreen implements Screen
 			
 	}
 	
-	public boolean isGameOver() { return player.isGameOver(); }
+	public boolean isGameOver() { return gameOver; }
 
 	@Override
 	public void hide()
@@ -120,7 +150,6 @@ public class GameScreen implements Screen
 	{
 		// TODO: Implement this method
 		batch.dispose();
-		enemies.dispose();
 		player.dispose();
 	}
 }

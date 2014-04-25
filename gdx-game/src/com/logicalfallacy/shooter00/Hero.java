@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.assets.*;
 
 public class Hero extends Ship
 {
@@ -15,19 +16,20 @@ public class Hero extends Ship
 	float _defaultFireRate;
 	Timer _powerupTimer;
 	
-	public Hero(Array<Bullet> bulletList)
+	public Hero(Array<Bullet> bulletList, AssetManager assetManager)
 	{
+		_assetManager = assetManager;
 		//_texture = new Texture(Gdx.files.internal("data/hero3_views.png"));
 		//_views = TextureRegion.split(_texture, 16, 16);
 		//_sprite = new Sprite(_views[0][0]);
-		_texture = new Texture(Gdx.files.internal("data/vv.png"));
+		_texture = _assetManager.get("data/vv.png", Texture.class);
 		_sprite = new Sprite(_texture);
 		_sprite.setX(Gdx.graphics.getWidth()/2);
 		_sprite.setY(Gdx.graphics.getWidth()/8);
 		_sprite.setScale(0.2f*Gdx.graphics.getWidth()/_sprite.getWidth());
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
 		
-		_speed = 1.0f*Gdx.graphics.getWidth();
+		_speed = 1.1f*Gdx.graphics.getWidth();
 		_dxdy = new Vector2();
 		_dest = new Vector2();
 		
@@ -38,13 +40,7 @@ public class Hero extends Ship
 		_BulletList = bulletList;
 		_weaponReady = true;
 		
-		_defenseModifier = 0;
-		_powerupTimer.schedule(new Timer.Task(){
-				@Override
-				public void run() {
-					_defenseModifier = 1;
-				} // end run()
-			}, 1.5f);
+		_defenseModifier = 1;
 	}
 	
 	// data members:
@@ -93,9 +89,9 @@ public class Hero extends Ship
 	{
 		// fire!
 		if(Gdx.input.isTouched() && _weaponReady) {
-			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), .5f*(float)Math.PI));
-			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), (float)Math.PI/9*4));
-			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), (float)Math.PI/9*5));
+			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), .5f*(float)Math.PI, _assetManager));
+			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), (float)Math.PI/9*4, _assetManager));
+			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), (float)Math.PI/9*5, _assetManager));
 			
 			_weaponReady = false;
 			
@@ -120,9 +116,6 @@ public class Hero extends Ship
 			super.draw(batch);
 	}
 	
-	public float getDefenseModifier() { return _defenseModifier; }
-	public void setDefenseModifier(float defenceModifier) { _defenseModifier = defenceModifier; }
-	
 	public void addHP(float bonus) {
 		_hp += bonus;
 		if(_hp > _maxHP)
@@ -134,5 +127,6 @@ public class Hero extends Ship
 	public float getFireRate() { return _fireRate; }
 	public void setFireRate(float fireRate) { _fireRate = fireRate; }
 	public float getDefaultFireRate() { return _defaultFireRate; }
-	
+	public float getDefenseModifier() { return _defenseModifier; }
+	public void setDefenseModifier(float defenceModifier) { _defenseModifier = defenceModifier; }
 }
