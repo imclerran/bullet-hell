@@ -16,7 +16,7 @@ public class InvinciblePowerup extends Powerup
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
 		_sprite.setPosition(x, y);
 		_sprite.setScale(0.1f*Gdx.graphics.getWidth()/_sprite.getWidth());
-		_duration = 5f;
+		_duration = 7f;
 
 		_dxdy = new Vector2();
 		_dest = new Vector2();

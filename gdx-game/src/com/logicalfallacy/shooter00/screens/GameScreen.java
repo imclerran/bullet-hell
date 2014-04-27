@@ -10,11 +10,13 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.Game;
 import com.logicalfallacy.shooter00.*;
 import com.badlogic.gdx.assets.*;
+import com.badlogic.gdx.audio.Music;
 
 public class GameScreen implements Screen
 {
 	MyGdxGame game;
 	AssetManager assetManager;
+	ProfileManager profile;
 	
 	Background BG;
 	enemyManager enemies;
@@ -25,14 +27,16 @@ public class GameScreen implements Screen
 	boolean timerRunning;
 	Texture gameOverTexture;
 	Sprite gameOverSprite;
+	Music music;
 	
 	
 	//BitmapFont font;
 	//TextureAtlas textureAtlas;
 	
-	public GameScreen(MyGdxGame mygame, AssetManager manager) {
+	public GameScreen(MyGdxGame mygame, ProfileManager myProfile, AssetManager manager) {
 		game = mygame;
 		assetManager = manager;
+		profile = myProfile;
 		
 		BG = new Background(assetManager);
 		player = new Player(assetManager);
@@ -48,6 +52,10 @@ public class GameScreen implements Screen
 		timer = new Timer();
 		timerRunning = false;
 		batch = new SpriteBatch();
+		
+		music = assetManager.get("data/reflux.mp3", Music.class);
+		music.setVolume(0.04f);
+		music.setLooping(false);
 	}
 
 	@Override
@@ -56,6 +64,7 @@ public class GameScreen implements Screen
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 	    Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
+		//music.play();
 		if(player.isGameOver() && !timerRunning) {
 			timerRunning = true;
 			timer.schedule(new Timer.Task(){
@@ -76,7 +85,10 @@ public class GameScreen implements Screen
 		enemies.draw(batch);
 		player.draw(batch);
 		if(player.isGameOver())
+		{
+			profile.newScore(player.getScore());
 			gameOverSprite.draw(batch);
+		}
 		batch.end();
 	}
 	

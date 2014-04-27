@@ -20,8 +20,9 @@ public class MainMenuScreen implements Screen
 	Stage stage;
 	Table table;
 	TextButton startGameButton;
+	Label highScoreLabel;
 	
-	public MainMenuScreen(MyGdxGame mygame) {
+	public MainMenuScreen(MyGdxGame mygame, ProfileManager profile) {
 		game = mygame;
 		
 		stage = new Stage();
@@ -33,6 +34,9 @@ public class MainMenuScreen implements Screen
 		stage.addActor(table);
 
 		//add widgets to table here.
+		highScoreLabel = new Label("High Score: " + Integer.toString(profile.getHighScore()), skin);
+		table.addActor(highScoreLabel);
+		
 		startGameButton = new TextButton("Start", skin);
 		table.addActor(startGameButton);
 		startGameButton.addListener(new ClickListener() {
@@ -87,6 +91,14 @@ public class MainMenuScreen implements Screen
 	public void resize(int width, int height)
 	{
 		// TODO: Implement this method
+		highScoreLabel.setHeight(height/12);
+		highScoreLabel.setWidth(width);
+		highScoreLabel.setFontScale(highScoreLabel.getHeight()/24);
+		highScoreLabel.setAlignment(Align.center);
+		highScoreLabel.setPosition(
+			(width - highScoreLabel.getWidth())/2, 
+			3*(height - highScoreLabel.getHeight())/4);
+		
 		startGameButton.setHeight(height/12);
 		startGameButton.setWidth(width/2);
 		startGameButton.getLabel().setFontScale(startGameButton.getHeight()/24);

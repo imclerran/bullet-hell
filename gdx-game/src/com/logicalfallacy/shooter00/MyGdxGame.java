@@ -27,8 +27,10 @@ public class MyGdxGame extends Game
 		loadAssets();
 		
 		profile = new ProfileManager();
-		mainMenuScreen = new MainMenuScreen(this);
-		gameScreen = new GameScreen(this, assetManager);
+		profile.loadProfile();
+		
+		mainMenuScreen = new MainMenuScreen(this, profile);
+		gameScreen = new GameScreen(this, profile, assetManager);
 		loadingScreen = new LoadingScreen(this);
 		setScreen(loadingScreen);
 	}
@@ -53,6 +55,8 @@ public class MyGdxGame extends Game
 		assetManager.load("data/gun_silencer.mp3", Sound.class);
 		assetManager.load("data/blaster-01.wav", Sound.class);
 		assetManager.load("data/pulse_rifle.wav", Sound.class);
+		assetManager.load("data/gun_zap2.wav", Sound.class);
+		assetManager.load("data/reflux.mp3", Music.class);
 		assetManager.finishLoading();
 		
 	}
@@ -68,7 +72,9 @@ public class MyGdxGame extends Game
 		if(gameScreen.isGameOver())
 		{
 			gameScreen.dispose();
-			gameScreen = new GameScreen(this, assetManager);
+			gameScreen = new GameScreen(this, profile, assetManager);
+			mainMenuScreen.dispose();
+			mainMenuScreen = new MainMenuScreen(this, profile);
 			setScreen(mainMenuScreen);
 		}
 		super.render();
@@ -78,10 +84,11 @@ public class MyGdxGame extends Game
 	@Override
 	public void dispose()
 	{
+		profile.saveProfile();
 		assetManager.dispose();
 		loadingScreen.dispose();
 		gameScreen.dispose();
-		//mainMenuScreen.dispose();
+		mainMenuScreen.dispose();
 	}
 
 	@Override

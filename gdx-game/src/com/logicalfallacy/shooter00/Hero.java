@@ -28,6 +28,7 @@ public class Hero extends Ship
 		_sprite.setY(Gdx.graphics.getWidth()/8);
 		_sprite.setScale(0.2f*Gdx.graphics.getWidth()/_sprite.getWidth());
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
+		//_sprite.setOrigin(0,0);
 		
 		_speed = 1.1f*Gdx.graphics.getWidth();
 		_dxdy = new Vector2();
@@ -89,7 +90,7 @@ public class Hero extends Ship
 	{
 		// fire!
 		if(Gdx.input.isTouched() && _weaponReady) {
-			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), .5f*(float)Math.PI, _assetManager));
+			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY()+_sprite.getHeight(), .5f*(float)Math.PI, _assetManager));
 			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), (float)Math.PI/9*4, _assetManager));
 			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), (float)Math.PI/9*5, _assetManager));
 			

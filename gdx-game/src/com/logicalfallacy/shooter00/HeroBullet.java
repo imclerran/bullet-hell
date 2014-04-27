@@ -45,8 +45,8 @@ public class HeroBullet extends Bullet
 		_sprite.setScale(0.03f*Gdx.graphics.getWidth()/_sprite.getWidth());
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
 		_sprite.setRotation((_angle*180f/(float)Math.PI)-90f);
-		_sound = assetManager.get("data/pulse_rifle.wav", Sound.class);
-		//_sound.play(0.01f);
+		_sound = assetManager.get("data/gun_zap2.wav", Sound.class);
+		_sound.play(0.05f);
 	}
 
 	/*@Override
