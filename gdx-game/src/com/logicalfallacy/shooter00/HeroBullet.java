@@ -11,7 +11,7 @@ import com.badlogic.gdx.assets.*;
 
 public class HeroBullet extends Bullet
 {
-	public Sound _sound;
+	
 	/*public HeroBullet(float x, float y)
 	{
 		_damage = 10;
@@ -32,9 +32,9 @@ public class HeroBullet extends Bullet
 	
 	public HeroBullet(float x, float y, float angle, AssetManager assetManager)
 	{
-		_damage = 10;
+		_damage = 7;
 		_angle = angle;
-		_speed = 0.6f*Gdx.graphics.getHeight();
+		_speed = 0.7f*Gdx.graphics.getHeight();
 		_dxdy = new Vector2();
 		calcDxDy();
 		_deleteMe = false;
@@ -45,8 +45,9 @@ public class HeroBullet extends Bullet
 		_sprite.setScale(0.03f*Gdx.graphics.getWidth()/_sprite.getWidth());
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
 		_sprite.setRotation((_angle*180f/(float)Math.PI)-90f);
+		
 		_sound = assetManager.get("data/gun_zap2.wav", Sound.class);
-		_sound.play(0.05f);
+		_sound.play(0.005f); 
 	}
 
 	/*@Override

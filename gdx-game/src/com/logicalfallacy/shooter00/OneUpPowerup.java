@@ -31,6 +31,8 @@ public class OneUpPowerup extends Powerup
 					_expired = true;
 				} // end run()
 			}, _onScreen);
+			
+		_applyToWingman = false;
 	}
 
 	@Override

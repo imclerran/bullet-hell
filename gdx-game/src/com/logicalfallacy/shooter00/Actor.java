@@ -9,14 +9,14 @@ import com.badlogic.gdx.utils.Disposable;
 
 public class Actor
 {
-	// data members:
+	/*--- data members: ---*/
 	Sprite _sprite;
 	Texture _texture;
 	public boolean _deleteMe;
 	
 	// TODO: Move boolean _deleteMe to actor
 
-	// methods:
+	/*--- methods: ---*/
 
 	public void update() {
 	}

@@ -12,31 +12,31 @@ import com.badlogic.gdx.assets.*;
 public class Hero extends Ship
 {
 
-	float _defenseModifier;
-	float _defaultFireRate;
-	Timer _powerupTimer;
+	
+	Wingman _leftWingman;
+	Wingman _rightWingman;
+	boolean _spawnDestReached;
+	//Timer _powerupTimer;
 	
 	public Hero(Array<Bullet> bulletList, AssetManager assetManager)
 	{
 		_assetManager = assetManager;
-		//_texture = new Texture(Gdx.files.internal("data/hero3_views.png"));
-		//_views = TextureRegion.split(_texture, 16, 16);
-		//_sprite = new Sprite(_views[0][0]);
 		_texture = _assetManager.get("data/vv.png", Texture.class);
 		_sprite = new Sprite(_texture);
 		_sprite.setX(Gdx.graphics.getWidth()/2);
-		_sprite.setY(Gdx.graphics.getWidth()/8);
+		_sprite.setY(0);
 		_sprite.setScale(0.2f*Gdx.graphics.getWidth()/_sprite.getWidth());
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
 		//_sprite.setOrigin(0,0);
 		
-		_speed = 1.1f*Gdx.graphics.getWidth();
+		_speed = 1.3f*Gdx.graphics.getWidth();
 		_dxdy = new Vector2();
-		_dest = new Vector2();
+		_dest = new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/4);
+		_spawnDestReached = false;
 		
 		_maxHP = 100f;
 		_hp = _maxHP;
-		_defaultFireRate = 0.22f;
+		_defaultFireRate = 0.13f;
 		_fireRate = _defaultFireRate;
 		_BulletList = bulletList;
 		_weaponReady = true;
@@ -54,34 +54,40 @@ public class Hero extends Ship
 	{
 		if(!this.isDead())
 		{
-			// TODO: Fix texture changing (bank left/right)
 			super.update();
-		
-			/*
-			// bank right
-			if(_dxdy.x > 0.0f + (_speed/2.0f))
-				_sprite.setTexture(_views[0][2].getTexture());
-			// bank left
-			else if(_dxdy.x < 0.0f - (_speed/2.0f))
-				_sprite.setTexture(_views[0][1].getTexture());
-				
-			else // forward
-				_sprite.setTexture(_views[0][0].getTexture());*/
+			if(_leftWingman != null) {
+				if(_leftWingman.isDead())
+					_leftWingman = null;
+				else
+					_leftWingman.update(_sprite.getX() - (3f * _sprite.getWidth()), _sprite.getY());
+			}
+			if(_rightWingman != null) {
+				if(_rightWingman.isDead())
+					_rightWingman = null;
+				else
+					_rightWingman.update(_sprite.getX() + (3f * _sprite.getWidth()), _sprite.getY());
+			}
 		}
-		
 	}
 
 	@Override
 	public boolean updateDestination()
 	{
+		if(!_spawnDestReached) {
+			if(_sprite.getX() == _dest.x && _sprite.getY() == _dest.y)
+				_spawnDestReached = true;
+			return true;
+		}
 		if(Gdx.input.isTouched())
 		{
+			_spawnDestReached = true;
 			// set destinations
 			_dest.x = Gdx.input.getX();
 			_dest.y = Gdx.graphics.getHeight() - Gdx.input.getY()
 				+ _sprite.getBoundingRectangle().getHeight()/3*2;
 			return true;
 		}
+		
 		return false;
 	}
 
@@ -106,28 +112,33 @@ public class Hero extends Ship
 	}
 
 	@Override
-	public void hit(int damage) {
-		_hp = _hp - damage*_defenseModifier;
-	}
-
-	@Override
 	public void draw(Batch batch)
 	{
-		if(!this.isDead())
+		if(!this.isDead()) {
 			super.draw(batch);
+			if(_leftWingman != null)
+				_leftWingman.draw(batch);
+			if(_rightWingman != null)
+				_rightWingman.draw(batch);
+		}
 	}
 	
-	public void addHP(float bonus) {
-		_hp += bonus;
-		if(_hp > _maxHP)
-			_hp = _maxHP;
+	
+	
+	
+	
+	
+	public Ship getLeftWingman() { return _leftWingman; }
+	public Ship getRightWingman() { return _rightWingman; }
+	
+	public void spawnLeftWingman() {
+		if(_leftWingman == null)
+			_leftWingman = new Wingman(_BulletList, _assetManager, 0, _sprite.getY());
+	}
+	public void spawnRightWingman() {
+		if(_rightWingman == null)
+			_rightWingman = new Wingman(_BulletList, _assetManager, Gdx.graphics.getWidth(), _sprite.getY());
 	}
 	
-	public Timer getPowerupTimer() { return _powerupTimer; }
 	
-	public float getFireRate() { return _fireRate; }
-	public void setFireRate(float fireRate) { _fireRate = fireRate; }
-	public float getDefaultFireRate() { return _defaultFireRate; }
-	public float getDefenseModifier() { return _defenseModifier; }
-	public void setDefenseModifier(float defenceModifier) { _defenseModifier = defenceModifier; }
 }

@@ -1,13 +1,11 @@
 package com.logicalfallacy.shooter00;
 
-import java.lang.Math;
 import com.badlogic.gdx.*;
-//import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.assets.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.assets.*;
+import com.badlogic.gdx.utils.*;
 
 public class HealthPowerup extends Powerup
 {
@@ -37,6 +35,8 @@ public class HealthPowerup extends Powerup
 					_expired = true;
 				} // end run()
 			}, _onScreen);
+			
+		_applyToWingman = true;
 	}
 
 	@Override
@@ -49,5 +49,11 @@ public class HealthPowerup extends Powerup
 	public void applyPickup(Player player)
 	{
 		player.getHero().addHP(_healthBonus);
+		
+		if(player.getHero().getLeftWingman() != null)
+			player.getHero().getLeftWingman().addHP(_healthBonus);
+			
+		if(player.getHero().getRightWingman() != null)
+			player.getHero().getRightWingman().addHP(_healthBonus);
 	}
 }

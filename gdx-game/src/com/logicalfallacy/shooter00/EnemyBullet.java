@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.assets.*;
+import com.badlogic.gdx.Audio;
+import com.badlogic.gdx.audio.*;
 
 public class EnemyBullet extends Bullet
 {	
@@ -39,6 +41,9 @@ public class EnemyBullet extends Bullet
 		_sprite.setY(y);
 		_sprite.setScale(0.03f*Gdx.graphics.getWidth()/_sprite.getWidth());
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
+		
+		_sound = assetManager.get("data/gun_silencer.mp3", Sound.class);
+		_sound.play(0.005f);
 
 	}
 }

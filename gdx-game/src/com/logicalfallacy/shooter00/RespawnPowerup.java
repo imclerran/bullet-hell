@@ -18,6 +18,8 @@ public class RespawnPowerup extends Powerup
 					_deleteMe = true;
 				} // end run()
 			}, _duration);
+			
+		_applyToWingman = false;
 	}
 	
 	@Override

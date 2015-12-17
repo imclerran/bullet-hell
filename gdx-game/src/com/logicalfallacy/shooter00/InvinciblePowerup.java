@@ -1,12 +1,11 @@
 package com.logicalfallacy.shooter00;
 
-import java.lang.Math;
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.assets.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.assets.*;
+import com.badlogic.gdx.utils.*;
 
 public class InvinciblePowerup extends Powerup
 {
@@ -16,7 +15,7 @@ public class InvinciblePowerup extends Powerup
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
 		_sprite.setPosition(x, y);
 		_sprite.setScale(0.1f*Gdx.graphics.getWidth()/_sprite.getWidth());
-		_duration = 7f;
+		_duration = 8f;
 
 		_dxdy = new Vector2();
 		_dest = new Vector2();
@@ -32,6 +31,8 @@ public class InvinciblePowerup extends Powerup
 					_expired = true;
 				} // end run()
 			}, _onScreen);
+		
+		_applyToWingman = true;
 	}
 	
 	@Override
@@ -48,6 +49,10 @@ public class InvinciblePowerup extends Powerup
 	public void applyPickup(Player player)
 	{
 		player.getHero().setDefenseModifier(0);
+		if(player.getHero().getLeftWingman() != null)
+			player.getHero().getLeftWingman().setDefenseModifier(0);
+		if(player.getHero().getRightWingman() != null)
+			player.getHero().getRightWingman().setDefenseModifier(0);
 	}
 	
 	

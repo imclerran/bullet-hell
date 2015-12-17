@@ -1,13 +1,11 @@
 package com.logicalfallacy.shooter00;
 
-import java.lang.Math;
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.assets.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.utils.Timer;
-import java.util.*;
-import com.badlogic.gdx.assets.*;
+import com.badlogic.gdx.utils.*;
 
 public class RapidFirePowerup extends Powerup
 {
@@ -21,7 +19,7 @@ public class RapidFirePowerup extends Powerup
 		_sprite.setScale(0.1f*Gdx.graphics.getWidth()/_sprite.getWidth());
 		
 		_fireRateBonusMultiplier = .5f;
-		_duration = 5f;
+		_duration = 6f;
 
 		_dxdy = new Vector2();
 		_dest = new Vector2();
@@ -37,6 +35,8 @@ public class RapidFirePowerup extends Powerup
 					_expired = true;
 				} // end run()
 			}, _onScreen);
+		
+		_applyToWingman = true;
 	}
 	
 	@Override
@@ -53,6 +53,10 @@ public class RapidFirePowerup extends Powerup
 	public void applyPickup(Player player)
 	{
 		player.getHero().setFireRate(player.getHero().getDefaultFireRate()*_fireRateBonusMultiplier);
+		if(player.getHero().getLeftWingman() != null)
+			player.getHero().getLeftWingman().setFireRate(player.getHero().getLeftWingman().getDefaultFireRate()*_fireRateBonusMultiplier);
+		if(player.getHero().getRightWingman() != null)
+			player.getHero().getRightWingman().setFireRate(player.getHero().getRightWingman().getDefaultFireRate()*_fireRateBonusMultiplier);
 	}
 	
 	

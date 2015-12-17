@@ -17,6 +17,7 @@ public class Player
 	int _score;
 	int _scoreMultiplier;
 	int _lives;
+	int _availableWingmen;
 	boolean _gameOver;
 	Timer _respawnTimer;
 	boolean _canRespawn;
@@ -35,6 +36,7 @@ public class Player
 		_bullets = new Array();
 		_powerups = new Array();
 		_activePowerups = new Array();
+		_availableWingmen = 0;
 		_hero = new Hero(_bullets, _assetManager);
 		_activePowerups.add(new RespawnPowerup());
 		_score = 0;
@@ -116,11 +118,35 @@ public class Player
 		
 		_hero.setDefenseModifier(1);
 		_hero.setFireRate(_hero.getDefaultFireRate());
+
+		if(_hero.getLeftWingman() != null) {
+			_hero.getLeftWingman().setDefenseModifier(1);
+			_hero.getLeftWingman().setFireRate(_hero.getLeftWingman().getDefaultFireRate());
+		}
+		
+		if(_hero.getRightWingman() != null) {
+			_hero.getRightWingman().setDefenseModifier(1);
+			_hero.getRightWingman().setFireRate(_hero.getRightWingman().getDefaultFireRate());
+		}
 		
 		for(int i = 0; i < _activePowerups.size; i++) {
 			_activePowerups.get(i).applyPickup(this);
 			if(_activePowerups.get(i)._deleteMe)
 				_activePowerups.removeIndex(i);
+		}
+		
+		spawnWingmen();
+	}
+	
+	public void spawnWingmen() {
+		if(_hero.getLeftWingman() == null && _availableWingmen > 0) {
+			_hero.spawnLeftWingman();
+			_availableWingmen--;
+		}
+		
+		if(_hero.getRightWingman() == null && _availableWingmen > 0) {
+			_hero.spawnRightWingman();
+			_availableWingmen--;
 		}
 	}
 	
@@ -139,14 +165,19 @@ public class Player
 	public void addRandomPowerup(float x, float y) {
 		float rand = (float)Math.random();
 		
-		if(rand < 0.25f)
+		if(rand < 0.2f)
 			_powerups.add(new RapidFirePowerup(x, y, _assetManager));
-		else if(rand < 0.5f)
+		else if(rand < 0.4f)
 			_powerups.add(new InvinciblePowerup(x, y, _assetManager));
+		else if(rand < 0.6f)
+			_powerups.add(new WingmanPowerup(x, y, _assetManager));
 		else if(rand < 0.9f)
 			_powerups.add(new HealthPowerup(x, y, _assetManager));
 		else
 			_powerups.add(new OneUpPowerup(x, y, _assetManager));
+		
+		// TEST CODE:
+		//_powerups.add(new WingmanPowerup(x, y, _assetManager));
 			
 	}
 	
@@ -201,6 +232,8 @@ public class Player
 	public int getScore() { return _score; }
 	
 	public void addLives(int lives) { _lives += lives; }
+	
+	public void addWingmen(int wingmen) { _availableWingmen += wingmen; }
 	
 	public boolean isGameOver() { return _gameOver; }
 	

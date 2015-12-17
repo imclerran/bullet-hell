@@ -5,7 +5,8 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.assets.AssetManager;
-import android.content.res.*;
+import com.badlogic.gdx.Audio;
+import com.badlogic.gdx.audio.*;
 
 public class enemyManager
 {
@@ -16,6 +17,7 @@ public class enemyManager
 	int _waveModifier;
 	int _maxWave;
 	boolean _spawnWaves;
+	Sound _explosion;
 	
 	public enemyManager(AssetManager assetManager)
 	{
@@ -26,6 +28,8 @@ public class enemyManager
 		_waveModifier = 3;
 		_maxWave = 4;
 		_spawnWaves = false;
+		
+		_explosion = assetManager.get("data/exp_03.wav", Sound.class);
 	}
 	
 	public void spawn(int count) {
@@ -35,9 +39,6 @@ public class enemyManager
 	
 	public Enemy getEnemy(int i) { return _enemies.get(i); }
 	public int getEnemyCount() { return _enemies.size; }
-	
-	
-	public void killEnemy(int i) { _enemies.removeIndex(i); }
 	
 	public Array<Bullet> getBullets() { return _bullets; }
 	
@@ -75,8 +76,14 @@ public class enemyManager
 		}
 	}
 	
+	public void killEnemy(int i) { 
+		_enemies.removeIndex(i);
+		_explosion.play(0.01f);
+	}
+	
 	public void kill(int i) {
 		_enemies.removeIndex(i);
+		_explosion.play(0.03f);
 	}
 	
 	public void draw(Batch batch) {

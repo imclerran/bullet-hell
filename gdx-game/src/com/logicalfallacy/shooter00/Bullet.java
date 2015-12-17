@@ -6,8 +6,19 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.assets.*;
+import com.badlogic.gdx.Audio;
+import com.badlogic.gdx.audio.*;
 
 public class Bullet extends Actor {
+	// data members:
+	int _damage;
+	float _speed;
+	Vector2 _dxdy;
+	float _angle;
+	public boolean _deleteMe;
+	public Sound _sound;
+	
+	
 	public Bullet() {
 		_damage = 10;
 		_angle = (float)Math.PI/2;
@@ -52,13 +63,6 @@ public class Bullet extends Actor {
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
 
 	}
-	
-	// data members:
-	int _damage;
-	float _speed;
-	Vector2 _dxdy;
-	float _angle;
-	public boolean _deleteMe;
 
 	@Override
 	public void update()

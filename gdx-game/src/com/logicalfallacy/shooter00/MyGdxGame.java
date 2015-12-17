@@ -38,6 +38,7 @@ public class MyGdxGame extends Game
 	public void loadAssets() {
 		assetManager.load("data/game_over.png", Texture.class);
 		assetManager.load("data/space_background.png", Texture.class);
+		assetManager.load("data/runway_tile_black.png", Texture.class);
 		assetManager.load("data/vv.png", Texture.class);
 		assetManager.load("data/blue_bullet.png", Texture.class);
 		assetManager.load("data/invincible_powerup.png", Texture.class);
@@ -46,16 +47,19 @@ public class MyGdxGame extends Game
 		assetManager.load("data/enemy_bullet.png", Texture.class);
 		assetManager.load("data/fire_rate_powerup.png", Texture.class);
 		assetManager.load("data/health_powerup.png", Texture.class);
+		assetManager.load("data/wingman_powerup.png", Texture.class);
 		assetManager.load("data/health_full.png", Texture.class);
 		assetManager.load("data/health_mid.png", Texture.class);
 		assetManager.load("data/health_low.png", Texture.class);
 		assetManager.load("data/health_invincible.png", Texture.class);
 		assetManager.load("data/hero.png", Texture.class);
+		assetManager.load("data/red_venom.png", Texture.class);
 		
 		assetManager.load("data/gun_silencer.mp3", Sound.class);
 		assetManager.load("data/blaster-01.wav", Sound.class);
 		assetManager.load("data/pulse_rifle.wav", Sound.class);
 		assetManager.load("data/gun_zap2.wav", Sound.class);
+		assetManager.load("data/exp_03.wav", Sound.class);
 		assetManager.load("data/reflux.mp3", Music.class);
 		assetManager.finishLoading();
 		

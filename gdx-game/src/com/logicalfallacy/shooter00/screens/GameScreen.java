@@ -55,7 +55,7 @@ public class GameScreen implements Screen
 		
 		music = assetManager.get("data/reflux.mp3", Music.class);
 		music.setVolume(0.04f);
-		music.setLooping(false);
+		music.setLooping(true);
 	}
 
 	@Override
@@ -79,6 +79,12 @@ public class GameScreen implements Screen
 		player.update();
 		enemies.update();
 		detectHits();
+		
+		// every 30 seconds, check if lives > 3
+		// if so, increase difficulty
+		// eg: max enemies
+		//if(player.getLives() > 3)
+			
 
 		batch.begin();
 		BG.draw(batch);
@@ -118,8 +124,13 @@ public class GameScreen implements Screen
 				enemies.kill(i);
 		}
 
-		if(!player.getHero().isDead())
+		if(!player.getHero().isDead()) {
 			enemies.bulletHits(player.getHero());
+			if(player.getHero().getLeftWingman() != null)
+				enemies.bulletHits(player.getHero().getLeftWingman());
+			if(player.getHero().getRightWingman() != null)
+				enemies.bulletHits(player.getHero().getRightWingman());
+		}
 		//if(hero.isDead())
 		// game over
 			

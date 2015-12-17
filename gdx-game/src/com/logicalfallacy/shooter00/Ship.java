@@ -20,6 +20,8 @@ public class Ship extends Actor
 	float _hp;
 	float _maxHP;
 	float _fireRate;
+	float _defenseModifier;
+	float _defaultFireRate;
 	Timer _fireTimer;
 	Array<Bullet> _BulletList;
 	boolean _weaponReady;
@@ -65,7 +67,10 @@ public class Ship extends Actor
 			}, _fireRate);
 	}
 	
-	public void hit(int damage) { _hp = _hp - damage; }
+	public void hit(int damage) {
+		_hp = _hp - damage*_defenseModifier;
+	}
+	
 	public boolean isDead() { return (_hp <= 0) ? true : false; }
 	
 	public boolean updateDestination() {
@@ -88,5 +93,18 @@ public class Ship extends Actor
 	
 	public int getPoints() { return 0; }
 	public float getHP() { return _hp; }
+	public void setHP(float hp) { _hp = hp; }
 	public float getMaxHP() { return _maxHP; }
+	
+	public void addHP(float bonus) {
+		_hp += bonus;
+		if(_hp > _maxHP)
+			_hp = _maxHP;
+	}
+	
+	public float getFireRate() { return _fireRate; }
+	public void setFireRate(float fireRate) { _fireRate = fireRate; }
+	public float getDefaultFireRate() { return _defaultFireRate; }
+	public float getDefenseModifier() { return _defenseModifier; }
+	public void setDefenseModifier(float defenceModifier) { _defenseModifier = defenceModifier; }
 }

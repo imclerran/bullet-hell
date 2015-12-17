@@ -34,9 +34,10 @@ public class Enemy extends Ship
 		_dxdy = new Vector2();
 		_dest = new Vector2(_sprite.getX(), _sprite.getY());
 
-		_hp = 60f;
+		_hp = 50f;
+		_defenseModifier = 1;
 		_pointValue = (int)_hp;
-		_fireRate = 2.36f; //1.8f;
+		_fireRate = 2.2f; //1.8f;
 		_BulletList = bulletList;
 		_weaponReady = false;
 		

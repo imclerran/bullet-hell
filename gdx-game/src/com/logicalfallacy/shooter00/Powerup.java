@@ -16,6 +16,7 @@ public class Powerup extends Actor
 	Timer _timer;
 	boolean _expired;
 	float _duration;
+	boolean _applyToWingman;
 	
 	@Override
 	public void update()
@@ -95,4 +96,6 @@ public class Powerup extends Actor
 	
 	public void applyPickup(Player player) {
 	}
+	
+	public boolean isApplyToWingman() { return _applyToWingman; }
 }
