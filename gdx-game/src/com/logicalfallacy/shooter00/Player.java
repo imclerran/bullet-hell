@@ -67,6 +67,8 @@ public class Player
 		_hpBar.update();
 		
 		if(_hero.isDead() && _lives > 0) {
+			if(_hero.getWeaponLevel() > 1)
+				_powerups.add(new WeaponPowerup(_hero.getSprite().getX(), _hero.getSprite().getY(), _assetManager));
 			if(!_timerRunning){
 				_timerRunning = true;
 				_respawnTimer.schedule(new Timer.Task(){
@@ -165,19 +167,21 @@ public class Player
 	public void addRandomPowerup(float x, float y) {
 		float rand = (float)Math.random();
 		
-		/*if(rand < 0.2f)
-			_powerups.add(new RapidFirePowerup(x, y, _assetManager));
-		else if(rand < 0.4f)
+		if(rand < 0.3f)
+			_powerups.add(new WeaponPowerup(x, y, _assetManager));
+		else if(rand < 0.45f)
 			_powerups.add(new InvinciblePowerup(x, y, _assetManager));
 		else if(rand < 0.6f)
 			_powerups.add(new WingmanPowerup(x, y, _assetManager));
-		else if(rand < 0.9f)
+		else if(rand < 0.75f)
 			_powerups.add(new HealthPowerup(x, y, _assetManager));
+		else if(rand < .9f)
+			_powerups.add(new RapidFirePowerup(x, y, _assetManager));
 		else
-			_powerups.add(new OneUpPowerup(x, y, _assetManager));*/
+			_powerups.add(new OneUpPowerup(x, y, _assetManager));
 		
 		// TEST CODE:
-		_powerups.add(new WeaponPowerup(x, y, _assetManager));
+		//_powerups.add(new WeaponPowerup(x, y, _assetManager));
 			
 	}
 	
