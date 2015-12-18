@@ -37,6 +37,7 @@ public class HealthPowerup extends Powerup
 			}, _onScreen);
 			
 		_applyToWingman = true;
+		_dropOdds = 1f;
 	}
 
 	@Override

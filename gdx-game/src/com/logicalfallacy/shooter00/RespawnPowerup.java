@@ -20,6 +20,7 @@ public class RespawnPowerup extends Powerup
 			}, _duration);
 			
 		_applyToWingman = false;
+		_dropOdds = 1f;
 	}
 	
 	@Override

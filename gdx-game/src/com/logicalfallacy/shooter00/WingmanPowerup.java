@@ -34,6 +34,7 @@ public class WingmanPowerup extends Powerup
 			}, _onScreen);
 			
 		_applyToWingman = false;
+		_dropOdds = 1f;
 	}
 
 	@Override

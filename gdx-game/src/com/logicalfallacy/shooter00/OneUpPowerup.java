@@ -33,6 +33,7 @@ public class OneUpPowerup extends Powerup
 			}, _onScreen);
 			
 		_applyToWingman = false;
+		_dropOdds = .3f;
 	}
 
 	@Override

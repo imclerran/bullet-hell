@@ -37,6 +37,7 @@ public class WeaponPowerup extends Powerup
 			}, _onScreen);
 		
 		_applyToWingman = true;
+		_dropOdds = 1f;
 	}
 	
 	@Override

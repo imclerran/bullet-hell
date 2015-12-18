@@ -17,6 +17,7 @@ public class Powerup extends Actor
 	boolean _expired;
 	float _duration;
 	boolean _applyToWingman;
+	float _dropOdds;
 	
 	@Override
 	public void update()
@@ -98,4 +99,6 @@ public class Powerup extends Actor
 	}
 	
 	public boolean isApplyToWingman() { return _applyToWingman; }
+	
+	public float getDropOdds() { return _dropOdds; }
 }
