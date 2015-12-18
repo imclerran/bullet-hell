@@ -114,7 +114,7 @@ public class Hero extends Ship
 		}
 	}
 	
-	public fire(int level) {
+	public void fire(int level) {
 		_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY()+_sprite.getHeight(), .5f*(float)Math.PI, _assetManager));
 		
 		if(level >= 2) {

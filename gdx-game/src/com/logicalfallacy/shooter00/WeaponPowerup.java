@@ -52,7 +52,7 @@ public class WeaponPowerup extends Powerup
 	@Override
 	public void applyPickup(Player player)
 	{
-		player.getHero().getHero().weaponLevelUp();
+		player.getHero().weaponLevelUp();
 		if(player.getHero().getLeftWingman() != null)
 			player.getHero().getLeftWingman().weaponLevelUp();
 		if(player.getHero().getRightWingman() != null)
