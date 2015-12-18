@@ -41,12 +41,8 @@ public class WeaponPowerup extends Powerup
 	
 	@Override
 	public void activate() {
-		_timer.schedule(new Timer.Task(){
-				@Override
-				public void run() {
-					_deleteMe = true;
-				} // end run()
-			}, _duration);
+		
+		_deleteMe = true;
 	}
 
 	@Override
