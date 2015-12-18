@@ -165,7 +165,7 @@ public class Player
 	public void addRandomPowerup(float x, float y) {
 		float rand = (float)Math.random();
 		
-		if(rand < 0.2f)
+		/*if(rand < 0.2f)
 			_powerups.add(new RapidFirePowerup(x, y, _assetManager));
 		else if(rand < 0.4f)
 			_powerups.add(new InvinciblePowerup(x, y, _assetManager));
@@ -174,10 +174,10 @@ public class Player
 		else if(rand < 0.9f)
 			_powerups.add(new HealthPowerup(x, y, _assetManager));
 		else
-			_powerups.add(new OneUpPowerup(x, y, _assetManager));
+			_powerups.add(new OneUpPowerup(x, y, _assetManager));*/
 		
 		// TEST CODE:
-		//_powerups.add(new WingmanPowerup(x, y, _assetManager));
+		_powerups.add(new WeaponPowerup(x, y, _assetManager));
 			
 	}
 	
