@@ -19,7 +19,7 @@ public class WeaponPowerup extends Powerup
 		_sprite.setScale(0.1f*Gdx.graphics.getWidth()/_sprite.getWidth());
 		
 		_fireRateBonusMultiplier = .5f;
-		_duration = 6f;
+		_duration = 0f;
 
 		_dxdy = new Vector2();
 		_dest = new Vector2();
