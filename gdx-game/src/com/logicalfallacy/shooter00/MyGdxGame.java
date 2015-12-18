@@ -54,6 +54,7 @@ public class MyGdxGame extends Game
 		assetManager.load("data/health_invincible.png", Texture.class);
 		assetManager.load("data/hero.png", Texture.class);
 		assetManager.load("data/red_venom.png", Texture.class);
+		assetManager.load("data/weapon_powerup.png", Texture.class);
 		
 		assetManager.load("data/gun_silencer.mp3", Sound.class);
 		assetManager.load("data/blaster-01.wav", Sound.class);

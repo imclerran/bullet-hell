@@ -32,6 +32,8 @@ public class Wingman extends Ship
 		_weaponReady = true;
 
 		_defenseModifier = 1;
+		_weaponLevel = 1;
+		_maxWeaponLevel = 2;
 	}
 	
 	public void update(float x, float y)
@@ -66,7 +68,8 @@ public class Wingman extends Ship
 	@Override
 	public void fire() {
 		if(Gdx.input.isTouched() && _weaponReady) {
-			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY()+_sprite.getHeight(), .5f*(float)Math.PI, _assetManager));
+			fire(_weaponLevel)
+			//_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY()+_sprite.getHeight(), .5f*(float)Math.PI, _assetManager));
 			
 			_weaponReady = false;
 
@@ -76,6 +79,16 @@ public class Wingman extends Ship
 						_weaponReady = true;
 					} // end run()
 				}, _fireRate);
+		}
+	}
+	
+	public fire(int level) {
+		if(level = 1)
+		_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY()+_sprite.getHeight(), .5f*(float)Math.PI, _assetManager));
+		
+		if(level = 2) {
+			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), .475f*(float)Math.PI, _assetManager));
+			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), .525f*(float)Math.PI, _assetManager));
 		}
 	}
 

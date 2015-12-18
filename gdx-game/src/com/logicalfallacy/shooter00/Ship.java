@@ -22,6 +22,8 @@ public class Ship extends Actor
 	float _fireRate;
 	float _defenseModifier;
 	float _defaultFireRate;
+	int _weaponLevel;
+	int _maxWeaponLevel;
 	Timer _fireTimer;
 	Array<Bullet> _BulletList;
 	boolean _weaponReady;
@@ -102,9 +104,17 @@ public class Ship extends Actor
 			_hp = _maxHP;
 	}
 	
+	int weaponLevelUp() {
+		if(_weaponLevel < _maxWeaponLevel)
+			_weaponLevel++;
+		return _weaponLevel;
+	}
+	
 	public float getFireRate() { return _fireRate; }
 	public void setFireRate(float fireRate) { _fireRate = fireRate; }
 	public float getDefaultFireRate() { return _defaultFireRate; }
 	public float getDefenseModifier() { return _defenseModifier; }
 	public void setDefenseModifier(float defenceModifier) { _defenseModifier = defenceModifier; }
+	public int getWeaponLevel() { return _weaponLevel; }
+	public void setWeaponLvel(int weaponLevel) { _weaponLevel = weaponLevel; }
 }

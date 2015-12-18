@@ -42,6 +42,8 @@ public class Hero extends Ship
 		_weaponReady = true;
 		
 		_defenseModifier = 1;
+		_weaponLevel = 1;
+		_maxWeaponLevel = 4;
 	}
 	
 	// data members:
@@ -96,9 +98,10 @@ public class Hero extends Ship
 	{
 		// fire!
 		if(Gdx.input.isTouched() && _weaponReady) {
-			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY()+_sprite.getHeight(), .5f*(float)Math.PI, _assetManager));
+			/*_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY()+_sprite.getHeight(), .5f*(float)Math.PI, _assetManager));
 			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), (float)Math.PI/9*4, _assetManager));
-			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), (float)Math.PI/9*5, _assetManager));
+			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), (float)Math.PI/9*5, _assetManager));*/
+			fire(_weaponLevel);
 			
 			_weaponReady = false;
 			
@@ -108,6 +111,24 @@ public class Hero extends Ship
 						_weaponReady = true;
 					} // end run()
 				}, _fireRate);
+		}
+	}
+	
+	public fire(int level) {
+		_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY()+_sprite.getHeight(), .5f*(float)Math.PI, _assetManager));
+		
+		if(level >= 2) {
+			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), .45f*(float)Math.PI, _assetManager));
+			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), .55f*(float)Math.PI, _assetManager));
+		}
+		if(level >= 3) {
+			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), .4f*(float)Math.PI, _assetManager));
+			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), .6f*(float)Math.PI, _assetManager));
+		}
+		
+		if(level >= 4) {
+			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), 0f, _assetManager));
+			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), (float)Math.PI, _assetManager));
 		}
 	}
 
@@ -139,6 +160,4 @@ public class Hero extends Ship
 		if(_rightWingman == null)
 			_rightWingman = new Wingman(_BulletList, _assetManager, Gdx.graphics.getWidth(), _sprite.getY());
 	}
-	
-	
 }
