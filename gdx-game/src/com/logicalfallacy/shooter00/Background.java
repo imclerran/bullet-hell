@@ -15,8 +15,8 @@ public class Background
 		_y_fore = new float[9];
 		_y_back = new float[9];
 		//_dy = 0.08f*Gdx.graphics.getHeight(); // 0.2f*
-		_dy_back = 0.1f*Gdx.graphics.getHeight();
-        _dy_fore = 0.15f*Gdx.graphics.getHeight();
+		_dy_fore = 0.3f*Gdx.graphics.getHeight();
+        _dy_back = 0.17f*Gdx.graphics.getHeight();
 		_offset_fore = 0.0f;
         _offset_back = 0.0f;
 		_tileHeight = Gdx.graphics.getHeight() / 8;
@@ -55,7 +55,7 @@ public class Background
 	}
     
     void updateBackground() {
-        if(_offset_back > _tileHeight)
+        if(_offset_back > _tileHeight) 
             _offset_back = _offset_back - _tileHeight;
         else
             _offset_back = _offset_back + _dy_back * Gdx.graphics.getDeltaTime();
@@ -81,10 +81,11 @@ public class Background
 	// render the map
 	public void draw(Batch batch)
 	{
-		for(int i = 0; i < 9; i++)
-		{
+		for(int i = 0; i < 9; i++) {
 			batch.draw(_texture_back, 0, _y_back[i], _tileWidth, _tileHeight);
-            batch.draw(_texture_fore, 0, _y_fore[i], _tileWidth, _tileHeight);
+		}
+		for(int i = 0; i < 9; i++) {
+			batch.draw(_texture_fore, 0, _y_fore[i], _tileWidth, _tileHeight);
 		}
 	}
 }
