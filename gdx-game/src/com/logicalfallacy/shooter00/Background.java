@@ -11,8 +11,9 @@ public class Background
 	{
 		//_texture = assetManager.get("data/runway_tile_black.png", Texture.class);
 		_texture_back = assetManager.get("data/space_background.png", Texture.class);
-        _texture_fore = assetManager.get("runway_transparent.png", Texture.class);
-		_y = new float[9];
+        _texture_fore = assetManager.get("data/runway_transparent.png", Texture.class);
+		_y_fore = new float[9];
+		_y_back = new float[9];
 		//_dy = 0.08f*Gdx.graphics.getHeight(); // 0.2f*
 		_dy_back = 0.1f*Gdx.graphics.getHeight();
         _dy_fore = 0.15f*Gdx.graphics.getHeight();
@@ -31,7 +32,7 @@ public class Background
 	float[] _y_fore;
     float[] _y_back;
 	float _offset_fore;
-    float _offset_back
+    float _offset_back;
 	float _tileHeight;
 	float _tileWidth;
 	
@@ -53,26 +54,26 @@ public class Background
         updateForeground();
 	}
     
-    updateBackground() {
+    void updateBackground() {
         if(_offset_back > _tileHeight)
-            offset_back = _offset_back - tileHeight;
+            _offset_back = _offset_back - _tileHeight;
         else
-            _offset_back = offset_back + _dy_back * Gdx.graphics.getDeltaTime();
+            _offset_back = _offset_back + _dy_back * Gdx.graphics.getDeltaTime();
         
         for(int i = 0; i < 9; i++) {
-            _y_back[i] = (tileHeight * i) - _offset_back;
+            _y_back[i] = (_tileHeight * i) - _offset_back;
         }
         
     }
     
-    updateForeground() {
+    void updateForeground() {
         if(_offset_fore > _tileHeight)
-            offset_fore = _offset_fore - tileHeight;
+            _offset_fore = _offset_fore - _tileHeight;
         else
-            _offset_fore = offset_fore + _dy_fore * Gdx.graphics.getDeltaTime();
+            _offset_fore = _offset_fore + _dy_fore * Gdx.graphics.getDeltaTime();
         
         for(int i = 0; i < 9; i++) {
-            _y_fore[i] = (tileHeight * i) - _offset_fore;
+            _y_fore[i] = (_tileHeight * i) - _offset_fore;
         }
         
     }
