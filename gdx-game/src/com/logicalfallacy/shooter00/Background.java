@@ -10,7 +10,7 @@ public class Background
 	public Background(AssetManager assetManager)
 	{
 		//_texture = assetManager.get("data/runway_tile_black.png", Texture.class);
-		_texture = assetManager.get("data/space_background.png", Texture.class);
+		_texture = assetManager.get("data/space_runway.png", Texture.class);
 		_y = new float[9];
 		//_dy = 0.08f*Gdx.graphics.getHeight(); // 0.2f*
 		_dy = 0.1f*Gdx.graphics.getHeight();
