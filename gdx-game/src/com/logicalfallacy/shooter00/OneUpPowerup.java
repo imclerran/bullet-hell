@@ -48,7 +48,7 @@ public class OneUpPowerup extends Powerup
 	public void applyPickup(Player player)
 	{
 		// TODO: Implement this method
-		player.addLives(1);
+		player.addLife();
 	}
 	
 }

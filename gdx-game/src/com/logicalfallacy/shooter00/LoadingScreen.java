@@ -42,7 +42,7 @@ public class LoadingScreen implements Screen
 			}, 1f);
 	}
 	
-	@Override
+	//@Override
 	public void create() {
 	
 		

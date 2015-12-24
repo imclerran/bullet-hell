@@ -17,7 +17,9 @@ public class Player
 	int _score;
 	int _scoreMultiplier;
 	int _lives;
+	int _maxLives;
 	int _availableWingmen;
+	int _maxAvailableWingmen;
 	boolean _gameOver;
 	Timer _respawnTimer;
 	boolean _canRespawn;
@@ -37,10 +39,12 @@ public class Player
 		_powerups = new Array();
 		_activePowerups = new Array();
 		_availableWingmen = 0;
+		_maxAvailableWingmen = 6;
 		_hero = new Hero(_bullets, _assetManager);
 		_activePowerups.add(new RespawnPowerup());
 		_score = 0;
 		_lives = 3;
+		_maxLives = 4;
 		_gameOver = false;
 		_respawnDelay = 1f;
 		_respawnTimer = new Timer();
@@ -69,6 +73,8 @@ public class Player
 		if(_hero.isDead() && _lives > 0) {
 			if(_hero.getWeaponLevel() > 1)
 				_powerups.add(new WeaponPowerup(_hero.getSprite().getX(), _hero.getSprite().getY(), _assetManager));
+			else
+				addRandomPowerup(_hero.getSprite().getX(), _hero.getSprite().getY());
 			if(!_timerRunning){
 				_timerRunning = true;
 				_respawnTimer.schedule(new Timer.Task(){
@@ -236,9 +242,21 @@ public class Player
 	
 	public int getScore() { return _score; }
 	
-	public void addLives(int lives) { _lives += lives; }
+	//public void addLives(int lives) { _lives += lives; }
 	
-	public void addWingmen(int wingmen) { _availableWingmen += wingmen; }
+	public int addLife() {
+		if(_lives < _maxLives)
+			_lives++;
+		return _lives;
+	}
+	
+	public int addWingmen(int wingmen) {
+		while(_availableWingmen < _maxAvailableWingmen && wingmen > 0) {
+			_availableWingmen++;
+			wingmen--;
+		}
+		return _availableWingmen;
+	}
 	
 	public boolean isGameOver() { return _gameOver; }
 	

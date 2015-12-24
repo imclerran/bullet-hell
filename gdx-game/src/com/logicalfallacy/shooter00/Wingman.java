@@ -24,7 +24,7 @@ public class Wingman extends Ship
 		_dxdy = new Vector2();
 		_dest = new Vector2();
 
-		_maxHP = 170f;
+		_maxHP = 150f;
 		_hp = _maxHP;
 		_defaultFireRate = 0.22f;
 		_fireRate = _defaultFireRate;

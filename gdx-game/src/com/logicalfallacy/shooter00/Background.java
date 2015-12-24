@@ -15,7 +15,7 @@ public class Background
 		_y_fore = new float[9];
 		_y_back = new float[9];
 		//_dy = 0.08f*Gdx.graphics.getHeight(); // 0.2f*
-		_dy_fore = 0.3f*Gdx.graphics.getHeight();
+		_dy_fore = 0.25f*Gdx.graphics.getHeight();
         _dy_back = 0.17f*Gdx.graphics.getHeight();
 		_offset_fore = 0.0f;
         _offset_back = 0.0f;
