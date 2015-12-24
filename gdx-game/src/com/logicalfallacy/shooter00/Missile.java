@@ -18,12 +18,13 @@ class Missile extends Bullet {
     float _maxDeltaAngle;
     
     // default constructor
-    Public Missile() {
+    public Missile() {
         _damage = 50;
 		_angle = (float)Math.PI/2;
 		_speed = 500;
         _distToActivate = 500;
         _distTravelled = 0;
+		_target = null;
 		_dxdy = new Vector2();
 		calcDxDy();
 		_deleteMe = false;
@@ -32,34 +33,16 @@ class Missile extends Bullet {
 		temp.dispose();
     }
     
-    // constructor with coords
-	public Missile(float x, float y, AssetManager assetManager)
-	{
-		_damage = 50;
-		_angle = (float)Math.PI/2;
-		_speed = 500;
-        _distToActivate = 500;
-        _distTravelled = 0;
-        _maxDeltaAngle = .01f*(float)Math.PI;
-		_dxdy = new Vector2();
-		calcDxDy();
-		_deleteMe = false;
-		_texture = assetManager.get("data/missile.png", Texture.class);
-		_sprite = new Sprite(_texture);
-		_sprite.setX(x);
-		_sprite.setY(y);
-		_sprite.setScale(Gdx.graphics.getWidth()/72);
-		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
-	}
     
     // constructor with coords + direction
 	public Missile(float x, float y, float angle, AssetManager assetManager, EnemyManager enemies)
 	{
-		_damage = 10;
+		_damage = 50;
 		_angle = angle;
 		_speed = 500;
-        _distToActivate = 500;
+        _distToActivate = 100;
         _distTravelled = 0;
+		_target = null;
 		_dxdy = new Vector2();
 		calcDxDy();
 		_deleteMe = false;
@@ -67,9 +50,10 @@ class Missile extends Bullet {
 		_sprite = new Sprite(_texture);
 		_sprite.setX(x);
 		_sprite.setY(y);
-		_sprite.setScale(Gdx.graphics.getWidth()/72);
+		_sprite.setScale(Gdx.graphics.getWidth()/200);
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
         _enemies = enemies;
+		_maxDeltaAngle = .03f*(float)Math.PI;
 	}
     
     @Override
@@ -79,7 +63,7 @@ class Missile extends Bullet {
             calcDistance();
             
         else {
-            if(!_target)
+            if(_target == null)
                 findTarget();
             else {
                 calcAngle();
@@ -102,13 +86,13 @@ class Missile extends Bullet {
 	}
     
     public void calcDistance() {
-        float deltaDist = (float)Math.sqrt((_dydx.x*_dydx.x) + (_dydx.y*_dydx.y));
+        float deltaDist = (float)Math.sqrt((_dxdy.x*_dxdy.x) + (_dxdy.y*_dxdy.y));
         _distTravelled += deltaDist;
     }
     
-    calcAngle() {
-        float angleToTarget = (float)Math.tan(_dydx.y/_dydx.x);
-        float adjustedMaxDeltaAngle = _maxDeltaAngle*Gdx.graphics.getDeltaTime());
+    public void calcAngle() {
+        float angleToTarget = (float)Math.tan(_dxdy.y/_dxdy.x);
+        float adjustedMaxDeltaAngle = _maxDeltaAngle*Gdx.graphics.getDeltaTime();
         
         if(_angle > angleToTarget) {
             if((_angle - angleToTarget ) > adjustedMaxDeltaAngle)
@@ -121,7 +105,7 @@ class Missile extends Bullet {
                 _angle += adjustedMaxDeltaAngle;
     }
     
-    findTarget() {
-        _target = enemis.get(1);
+    public void findTarget() {
+        _target = _enemies.getEnemy(1);
     }
 }

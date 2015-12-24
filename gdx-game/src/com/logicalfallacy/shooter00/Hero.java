@@ -11,14 +11,15 @@ import com.badlogic.gdx.assets.*;
 
 public class Hero extends Ship
 {
-
-	
 	Wingman _leftWingman;
 	Wingman _rightWingman;
 	boolean _spawnDestReached;
     boolean _missilesAvailable;
+	boolean _missilesReady;
     float _missleFireRate;
     Timer _missileTimer;
+	EnemyManager _enemies;
+	
     
 	//Timer _powerupTimer;
 	
@@ -60,6 +61,10 @@ public class Hero extends Ship
 		_defenseModifier = 1;
 		_weaponLevel = 1;
 		_maxWeaponLevel = 4;
+	}
+	
+	public void setEnemies(EnemyManager enemies) {
+		_enemies = enemies;
 	}
 	
 	// data members:
@@ -127,9 +132,9 @@ public class Hero extends Ship
                     }, _fireRate);
             } // end if weapon ready
             
-            if(_misslesAvailable && _missilesReady) {
-                _BulletList.add(new Missile(_sprite.getX(), _sprite.getY(), .25f*(float)Math.PI, _assetManager));
-                _BulletList.add(new Missile(_sprite.getX(), _sprite.getY(), .75f*(float)Math.PI, _assetManager));
+            if(_missilesAvailable && _missilesReady) {
+                _BulletList.add(new Missile(_sprite.getX(), _sprite.getY(), .25f*(float)Math.PI, _assetManager, _enemies));
+                _BulletList.add(new Missile(_sprite.getX(), _sprite.getY(), .75f*(float)Math.PI, _assetManager, _enemies));
                 
                 _missilesReady = false;
                 

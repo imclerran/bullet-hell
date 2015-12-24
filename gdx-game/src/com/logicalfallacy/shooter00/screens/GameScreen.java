@@ -40,7 +40,7 @@ public class GameScreen implements Screen
 		
 		BG = new Background(assetManager);
 		player = new Player(assetManager);
-		enemies = new enemyManager(assetManager);
+		enemies = new EnemyManager(assetManager);
         player.setEnemies(enemies);
 		enemies.spawnWaves(true);
 

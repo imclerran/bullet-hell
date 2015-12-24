@@ -56,7 +56,10 @@ public class Player
 		_hpBar = new HealthBar(_assetManager);
 	}
     
-    public setEnemies(EnemyManager enemies) { _enemies = enemies; }
+    public void setEnemies(EnemyManager enemies) { 
+		_enemies = enemies;
+		_hero.setEnemies(enemies);
+	}
 	
 	public void update() {
 		_hero.update();
