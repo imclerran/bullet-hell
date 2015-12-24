@@ -18,7 +18,7 @@ public class Bullet extends Actor {
 	public boolean _deleteMe;
 	public Sound _sound;
 	
-	
+	// default constructor
 	public Bullet() {
 		_damage = 10;
 		_angle = (float)Math.PI/2;
@@ -31,6 +31,7 @@ public class Bullet extends Actor {
 		temp.dispose();
 	}
 	
+    // constructor with coords
 	public Bullet(float x, float y, AssetManager assetManager)
 	{
 		_damage = 10;
@@ -47,6 +48,7 @@ public class Bullet extends Actor {
 		_sprite.setOrigin(_sprite.getWidth()/2, _sprite.getHeight()/2);
 	}
 	
+    // constructor with coords + direction
 	public Bullet(float x, float y, float angle, AssetManager assetManager)
 	{
 		_damage = 10;

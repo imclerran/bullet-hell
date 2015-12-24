@@ -16,6 +16,10 @@ public class Hero extends Ship
 	Wingman _leftWingman;
 	Wingman _rightWingman;
 	boolean _spawnDestReached;
+    boolean _missilesAvailable;
+    float _missleFireRate;
+    Timer _missileTimer;
+    
 	//Timer _powerupTimer;
 	
 	public Hero(Array<Bullet> bulletList, AssetManager assetManager)
@@ -37,9 +41,21 @@ public class Hero extends Ship
 		_maxHP = 100f;
 		_hp = _maxHP;
 		_defaultFireRate = 0.13f;
+        _missleFireRate = 0.26f;
 		_fireRate = _defaultFireRate;
 		_BulletList = bulletList;
 		_weaponReady = true;
+        _missilesAvailable = true;
+        _missilesReady = false;
+        
+        // TEST MISSILES
+        _fireTimer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            _missilesReady = true;
+                        } // end run()
+                    }, _missleFireRate);
+        // TEST MISSILES
 		
 		_defenseModifier = 1;
 		_weaponLevel = 1;
@@ -97,20 +113,33 @@ public class Hero extends Ship
 	public void fire()
 	{
 		// fire!
-		if(Gdx.input.isTouched() && _weaponReady) {
-			/*_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY()+_sprite.getHeight(), .5f*(float)Math.PI, _assetManager));
-			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), (float)Math.PI/9*4, _assetManager));
-			_BulletList.add(new HeroBullet(_sprite.getX(), _sprite.getY(), (float)Math.PI/9*5, _assetManager));*/
-			fire(_weaponLevel);
-			
-			_weaponReady = false;
-			
-			_fireTimer.schedule(new Timer.Task(){
-					@Override
-					public void run() {
-						_weaponReady = true;
-					} // end run()
-				}, _fireRate);
+		if(Gdx.input.isTouched()) {
+            if(_weaponReady) {
+                fire(_weaponLevel);
+                
+                _weaponReady = false;
+                
+                _fireTimer.schedule(new Timer.Task(){
+                        @Override
+                        public void run() {
+                            _weaponReady = true;
+                        } // end run()
+                    }, _fireRate);
+            } // end if weapon ready
+            
+            if(_misslesAvailable && _missilesReady) {
+                _BulletList.add(new Missile(_sprite.getX(), _sprite.getY(), .25f*(float)Math.PI, _assetManager));
+                _BulletList.add(new Missile(_sprite.getX(), _sprite.getY(), .75f*(float)Math.PI, _assetManager));
+                
+                _missilesReady = false;
+                
+                _fireTimer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            _missilesReady = true;
+                        } // end run()
+                    }, _missleFireRate);
+            }
 		}
 	}
 	

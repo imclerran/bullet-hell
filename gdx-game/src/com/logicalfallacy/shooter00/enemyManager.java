@@ -8,7 +8,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.audio.*;
 
-public class enemyManager
+public class EnemyManager
 {
 	AssetManager _assetManager;
 	Array<Enemy> _enemies;
@@ -19,7 +19,7 @@ public class enemyManager
 	boolean _spawnWaves;
 	Sound _explosion;
 	
-	public enemyManager(AssetManager assetManager)
+	public EnemyManager(AssetManager assetManager)
 	{
 		_assetManager = assetManager;
 		_enemies = new Array();

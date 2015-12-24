@@ -19,7 +19,7 @@ public class GameScreen implements Screen
 	ProfileManager profile;
 	
 	Background BG;
-	enemyManager enemies;
+	EnemyManager enemies;
 	Player player;
 	SpriteBatch batch;
 	boolean gameOver;
@@ -41,6 +41,7 @@ public class GameScreen implements Screen
 		BG = new Background(assetManager);
 		player = new Player(assetManager);
 		enemies = new enemyManager(assetManager);
+        player.setEnemies(enemies);
 		enemies.spawnWaves(true);
 
 		gameOverTexture = assetManager.get("data/game_over.png", Texture.class);

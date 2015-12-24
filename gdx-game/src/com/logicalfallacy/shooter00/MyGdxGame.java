@@ -43,6 +43,7 @@ public class MyGdxGame extends Game
         assetManager.load("data/runway_transparent.png", Texture.class);
 		assetManager.load("data/vv.png", Texture.class);
 		assetManager.load("data/blue_bullet.png", Texture.class);
+        assetManager.load("data/missile.png", Texture.class);
 		assetManager.load("data/invincible_powerup.png", Texture.class);
 		assetManager.load("data/1up_powerup.png", Texture.class);
 		assetManager.load("data/hunter.png", Texture.class);

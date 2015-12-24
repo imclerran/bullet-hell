@@ -28,6 +28,7 @@ public class Player
 	HealthBar _hpBar;
 	Array<Powerup> _powerups;
 	Array<Powerup> _activePowerups;
+    EnemyManager _enemies;
 	
 	BitmapFont font;
 	TextureAtlas textureAtlas;
@@ -54,6 +55,8 @@ public class Player
 		font = new BitmapFont(Gdx.files.internal("data/sf_square.fnt"), false);
 		_hpBar = new HealthBar(_assetManager);
 	}
+    
+    public setEnemies(EnemyManager enemies) { _enemies = enemies; }
 	
 	public void update() {
 		_hero.update();
