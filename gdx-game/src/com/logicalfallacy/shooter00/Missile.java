@@ -91,7 +91,9 @@ class Missile extends Bullet {
     }
     
     public void calcAngle() {
-        float angleToTarget = (float)Math.tan(_dxdy.y/_dxdy.x);
+        float deltaX = _target.getX() - _sprite.getX();
+        float deltaY = _target.getY() - _sprite.getY();
+        float angleToTarget = (float)Math.tan(deltaY/deltaX);
         float adjustedMaxDeltaAngle = _maxDeltaAngle*Gdx.graphics.getDeltaTime();
         
         if(_angle > angleToTarget) {
